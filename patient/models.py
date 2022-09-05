@@ -162,14 +162,10 @@ class Patients(ClusterableModel):
                         classname="collapsed",
                         min_num=0, max_num=1),
         ], heading='Lower Teeth Condition', classname="collapsed"),
-        InlinePanel('medical_image', heading="Medical Images", label='Detail Image',
-                    classname="collapsed",
-                    min_num=None, max_num=5),
-        '''
+
         InlinePanel('related_patient', heading="Related SOAP", label='Detail SOAP',
                     classname="collapsed",
                     min_num=None, max_num=None),
-        '''
     ]
 
     class Meta:
