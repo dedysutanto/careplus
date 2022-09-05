@@ -15,17 +15,21 @@ O:
 A:
 P:"""
 
-
 HELP_PANEL_1 = '<strong>KE</strong>: Karies Email; ' \
                '<strong>KD</strong>: Karies Dentin; ' \
                '<strong>KP</strong>: Karies Menuju Pulpa; ' \
-               '<strong>RG</strong>: Radang Gusi; ' \
-               '<strong>Ab</strong>: Abses'
-HELP_PANEL_2 = '<strong>GR</strong>: Gangren Radix; ' \
-               '<strong>GP</strong>: Gangren Pulpa; ' \
-               '<strong>PL</strong>: Premature Loss; ' \
+               '<strong>RG</strong>: Radang Gusi '
+HELP_PANEL_2 = '<strong>AF</strong>: Amalgam Filling; ' \
+               '<strong>CF</strong>: Composite Filling; ' \
+               '<strong>GR</strong>: Gangren Radix; ' \
+               '<strong>GP</strong>: Gangren Pulpa'
+HELP_PANEL_3 = '<strong>PL</strong>: Premature Loss; ' \
+               '<strong>IM</strong>: Impaksi; ' \
+               '<strong>Ab</strong>: Abses; ' \
+               '<strong>Cr</strong>: Crown; ' \
+               '<strong>Br</strong>: Bridge; ' \
+               '<strong>Ve</strong>: Veneer; ' \
                '<strong>M</strong>: Missing; ' \
-               '<strong>I</strong>: Impaksi; ' \
                '<strong>P</strong>: Persistensi'
 
 
@@ -40,12 +44,17 @@ TEETH = [
     ('KD', 'KD'),
     ('KP', 'KP'),
     ('RG', 'RG'),
-    ('Ab', 'Ab'),
+    ('AF', 'AF'),
+    ('CF', 'CF'),
     ('GR', 'GR'),
     ('GP', 'GP'),
     ('PL', 'PL'),
+    ('IM', 'IM'),
+    ('Ab', 'Ab'),
+    ('Cr', 'Cr'),
+    ('Br', 'Br'),
+    ('Ve', 'Ve'),
     ('M', 'M'),
-    ('I', 'I'),
     ('P', 'P'),
 ]
 
@@ -126,6 +135,8 @@ class Patients(ClusterableModel):
                       template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
             HelpPanel(content=HELP_PANEL_2,
                       template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
+            HelpPanel(content=HELP_PANEL_3,
+                      template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
             InlinePanel('teeth_upper_right', heading='Upper Right', label='Condition',
                         classname="collapsed",
                         min_num=0, max_num=1),
@@ -137,6 +148,8 @@ class Patients(ClusterableModel):
             HelpPanel(content=HELP_PANEL_1,
                       template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
             HelpPanel(content=HELP_PANEL_2,
+                      template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
+            HelpPanel(content=HELP_PANEL_3,
                       template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
             InlinePanel('teeth_lower_right', heading='Lower Right', label='Condition',
                         classname="collapsed",
