@@ -211,6 +211,9 @@ WAGTAILADMIN_BASE_URL = 'https://dentist.careplus.cloud'
 # which welcomes users upon login to the Wagtail admin.
 WAGTAIL_SITE_NAME = 'CarePlus'
 
+# CSRF
+CSRF_TRUSTED_ORIGINS = [WAGTAILADMIN_BASE_URL]
+
 # Replace the search backend
 #WAGTAILSEARCH_BACKENDS = {
 #  'default': {
