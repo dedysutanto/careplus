@@ -211,7 +211,7 @@ class Soaps(Orderable):
         verbose_name=_('Doctor'),
         limit_choices_to=limit_choices_to_current_user,
     )
-    number = models.CharField(_('Number'), max_length=8, unique=True)
+    number = models.CharField(_('Number'), max_length=8, unique=True, null=True)
     datetime = models.DateTimeField('Date Time', default=now)
     soap = models.TextField(verbose_name=_('SOAP'), blank=True, null=True, default=SOAP)
     additional_info = models.TextField(verbose_name=_('Additional Information'), blank=True, null=True)
