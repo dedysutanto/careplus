@@ -63,9 +63,9 @@ class SoapsAdmin(ModelAdmin):
     add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
     exclude_from_explorer = False  # or True to exclude pages of this type from Wagtail's explorer view
     add_to_admin_menu = True  # or False to exclude your model from the menu
-    list_display = ('patient', 'datetime', 'soap', 'additional_info',)
-    #list_filter = ('',)
-    search_fields = ('patient__name',)
+    list_display = ('doctor', 'patient', 'datetime', 'soap', 'additional_info',)
+    list_filter = ('doctor',)
+    search_fields = ('doctor', 'patient__name',)
     permission_helper_class = SoapsPermissionHelper
 
     def get_queryset(self, request):
