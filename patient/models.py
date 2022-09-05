@@ -9,6 +9,7 @@ from wagtail.admin.panels import FieldPanel, InlinePanel, FieldRowPanel, MultiFi
 from crum import get_current_user
 from wagtail.admin import widgets
 from datetime import date
+from wagtail.images.edit_handlers import ImageChooserPanel
 
 SOAP = """S:
 O:
@@ -82,7 +83,6 @@ teeth_right_panels = [
         FieldPanel('m_one'),
     ]),
 ]
-
 
 teeth_left_panels = [
     FieldPanel('patient'),
@@ -162,9 +162,14 @@ class Patients(ClusterableModel):
                         classname="collapsed",
                         min_num=0, max_num=1),
         ], heading='Lower Teeth Condition', classname="collapsed"),
+        InlinePanel('medical_image', heading="Medical Images", label='Detail Image',
+                    classname="collapsed",
+                    min_num=None, max_num=5),
+        '''
         InlinePanel('related_patient', heading="Related SOAP", label='Detail SOAP',
                     classname="collapsed",
                     min_num=None, max_num=None),
+        '''
     ]
 
     class Meta:
@@ -196,10 +201,21 @@ class Patients(ClusterableModel):
 
 
 class Soaps(Orderable):
+    def limit_choices_to_current_user():
+        user = get_current_user()
+        if not user.is_superuser:
+            return {'user': user}
+        else:
+            return {}
     datetime = models.DateTimeField('Date Time', default=now)
     soap = models.TextField(verbose_name=_('SOAP'), blank=True, null=True, default=SOAP)
     additional_info = models.TextField(verbose_name=_('Additional Information'), blank=True, null=True)
-    patient = ParentalKey('Patients', on_delete=models.CASCADE, related_name='related_patient')
+    patient = ParentalKey(
+        'Patients',
+        on_delete=models.CASCADE,
+        related_name='related_patient',
+        limit_choices_to=limit_choices_to_current_user,
+    )
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
@@ -278,3 +294,22 @@ class TeethLowerLeft(Orderable, Teeth):
 
     class Meta:
         db_table = 'teeth_lower_left'
+
+'''
+class MedicalImage(Orderable):
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+    patient = ParentalKey('Patients', on_delete=models.CASCADE, related_name='medical_image')
+
+    panels = [
+        FieldPanel('image'),
+    ]
+
+    class Meta:
+        db_table = 'medical_image'
+'''

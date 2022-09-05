@@ -2,6 +2,7 @@ from wagtail.contrib.modeladmin.options import (
     ModelAdmin, modeladmin_register,)
 from wagtail.admin.panels import FieldPanel, InlinePanel, FieldRowPanel
 from .models import Patients, Soaps
+from crum import get_current_user
 #from soap.models import Soaps, SoapRelatedLink
 
 
@@ -18,6 +19,13 @@ class PatientsAdmin(ModelAdmin):
     #list_filter = ('',)
     search_fields = ('name', 'dob')
 
+    def get_queryset(self, request):
+        current_user = get_current_user()
+        if not current_user.is_superuser:
+            return Patients.objects.filter(user=current_user)
+        else:
+            return Patients.objects.all()
+
 
 class SoapsAdmin(ModelAdmin):
     model = Soaps
@@ -31,6 +39,14 @@ class SoapsAdmin(ModelAdmin):
     list_display = ('patient', 'datetime', 'soap', 'additional_info',)
     #list_filter = ('',)
     search_fields = ('patient__name',)
+
+    def get_queryset(self, request):
+        current_user = get_current_user()
+        if not current_user.is_superuser:
+            return Soaps.objects.filter(user=current_user)
+        else:
+            return Soaps.objects.all()
+
 # Now you just need to register your customised ModelAdmin class with Wagtail
 modeladmin_register(PatientsAdmin)
 modeladmin_register(SoapsAdmin)
