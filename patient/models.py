@@ -211,6 +211,7 @@ class Soaps(Orderable):
         verbose_name=_('Doctor'),
         limit_choices_to=limit_choices_to_current_user,
     )
+    number = models.CharField(_('Number'), max_length=8, unique=True)
     datetime = models.DateTimeField('Date Time', default=now)
     soap = models.TextField(verbose_name=_('SOAP'), blank=True, null=True, default=SOAP)
     additional_info = models.TextField(verbose_name=_('Additional Information'), blank=True, null=True)
@@ -241,7 +242,8 @@ class Soaps(Orderable):
     def save(self):
         if self.user is None:
             self.user = get_current_user()
-
+        number = Patients.objects.count() + 1
+        self.number = '{:8d}'.format(number)
         return super(Soaps, self).save()
 
 
