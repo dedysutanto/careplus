@@ -18,13 +18,15 @@ P:"""
 HELP_PANEL_1 = '<strong>KE</strong>: Karies Email; ' \
                '<strong>KD</strong>: Karies Dentin; ' \
                '<strong>KP</strong>: Karies Menuju Pulpa; ' \
-               '<strong>RG</strong>: Radang Gusi '
-HELP_PANEL_2 = '<strong>AF</strong>: Amalgam Filling; ' \
-               '<strong>CF</strong>: Composite Filling; ' \
+               '<strong>RG</strong>: Radang Gusi ' \
+               '<strong>AF</strong>: Amalgam Filling '
+HELP_PANEL_2 = '<strong>CF</strong>: Composite Filling; ' \
                '<strong>GR</strong>: Gangren Radix; ' \
-               '<strong>GP</strong>: Gangren Pulpa'
-HELP_PANEL_3 = '<strong>PL</strong>: Premature Loss; ' \
-               '<strong>IM</strong>: Impaksi; ' \
+               '<strong>GP</strong>: Gangren Pulpa; ' \
+               '<strong>PL</strong>: Premature Loss; ' \
+               '<strong>IM</strong>: Impaksi '
+HELP_PANEL_3 = '<strong>In</strong>: Inlay; ' \
+               '<strong>On</strong>: Onlay; ' \
                '<strong>Ab</strong>: Abses; ' \
                '<strong>Cr</strong>: Crown; ' \
                '<strong>Br</strong>: Bridge; ' \
@@ -50,6 +52,8 @@ TEETH = [
     ('GP', 'GP'),
     ('PL', 'PL'),
     ('IM', 'IM'),
+    ('In', 'In'),
+    ('On', 'On'),
     ('Ab', 'Ab'),
     ('Cr', 'Cr'),
     ('Br', 'Br'),
