@@ -47,6 +47,6 @@ class SoapsAdmin(ModelAdmin):
         else:
             return Soaps.objects.all()
 
-# Now you just need to register your customised ModelAdmin class with Wagtail
+
 modeladmin_register(PatientsAdmin)
 modeladmin_register(SoapsAdmin)

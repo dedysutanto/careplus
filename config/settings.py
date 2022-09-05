@@ -28,6 +28,7 @@ ALLOWED_HOSTS = [str(os.getenv('ALLOWED_HOSTS'))]
 
 INSTALLED_APPS = [
     'patient',
+    'invoice',
     'dashboard',
     'wagtail.contrib.modeladmin',
     'wagtail.contrib.forms',
