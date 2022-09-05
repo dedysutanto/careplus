@@ -15,7 +15,7 @@ class DoctorsPermissionHelper(PermissionHelper):
             return True
 
     def user_can_delete_obj(self, user, obj):
-        return True
+        return False
 
     def user_can_edit_obj(self, user, obj):
         return True
