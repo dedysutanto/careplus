@@ -108,6 +108,7 @@ teeth_left_panels = [
 
 
 class Patients(ClusterableModel):
+    number = models.CharField(_('Number'), max_length=8, unique=True)
     name = models.CharField(max_length=100, verbose_name=_('Name'))
     gender = models.CharField(max_length=3, verbose_name=_('Gender'), choices=GENDER, default='M')
     dob = models.DateField(verbose_name=_('Date of Birth'))
@@ -183,6 +184,8 @@ class Patients(ClusterableModel):
 
         self.name = self.name.upper()
         self.address = self.address.upper()
+        number = Patients.objects.count() + 1
+        self.number = '{:8d}'.format(number)
         return super(Patients, self).save()
 
     def calculate_age(self):
@@ -211,7 +214,6 @@ class Soaps(Orderable):
         verbose_name=_('Doctor'),
         limit_choices_to=limit_choices_to_current_user,
     )
-    number = models.CharField(_('Number'), max_length=8, unique=True, null=True)
     datetime = models.DateTimeField('Date Time', default=now)
     soap = models.TextField(verbose_name=_('SOAP'), blank=True, null=True, default=SOAP)
     additional_info = models.TextField(verbose_name=_('Additional Information'), blank=True, null=True)
@@ -242,8 +244,6 @@ class Soaps(Orderable):
     def save(self):
         if self.user is None:
             self.user = get_current_user()
-        number = Patients.objects.count() + 1
-        self.number = '{:8d}'.format(number)
         return super(Soaps, self).save()
 
 
