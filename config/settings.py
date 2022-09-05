@@ -27,6 +27,7 @@ ALLOWED_HOSTS = [str(os.getenv('ALLOWED_HOSTS'))]
 # Application definition
 
 INSTALLED_APPS = [
+    'doctor',
     'patient',
     'invoice',
     'dashboard',
@@ -137,6 +138,11 @@ USE_I18N = True
 
 USE_TZ = True
 
+USE_L10N = False
+
+
+DATE_FORMAT = 'j N Y'
+#DATE_INPUT_FORMATS = 'd-m-Y'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

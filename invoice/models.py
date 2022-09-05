@@ -48,6 +48,7 @@ class Invoices(ClusterableModel):
         return total['sub_total__sum']
     calculate_total.short_description = 'Total'
 
+
 class InvoiceItems(Orderable):
     item = models.CharField(max_length=50, verbose_name=_('Item'))
     quantity = models.IntegerField(default=1)
