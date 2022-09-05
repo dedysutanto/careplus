@@ -31,6 +31,8 @@ class Invoices(ClusterableModel):
 
     class Meta:
         db_table = 'invoices'
+        verbose_name = 'invoice'
+        verbose_name_plural = 'invoices'
 
     def save(self):
         if self.user is None:
