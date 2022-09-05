@@ -16,7 +16,18 @@ A:
 P:"""
 
 
-HELP_PANEL = 'AA=BAttery; GR=GEdhe Rasa; CC=Cicak'
+HELP_PANEL_1 = '<strong>KE</strong>: Karies Email; ' \
+               '<strong>KD</strong>: Karies Dentin; ' \
+               '<strong>KP</strong>: Karies Menuju Pulpa; ' \
+               '<strong>RG</strong>: Radang Gusi; ' \
+               '<strong>Ab</strong>: Abses'
+HELP_PANEL_2 = '<strong>GR</strong>: Gangren Radix; ' \
+               '<strong>GP</strong>: Gangren Pulpa; ' \
+               '<strong>PL</strong>: Premature Loss; ' \
+               '<strong>M</strong>: Missing; ' \
+               '<strong>I</strong>: Impaksi; ' \
+               '<strong>P</strong>: Persistensi'
+
 
 GENDER = [
     ('M', 'Male'),
@@ -25,8 +36,17 @@ GENDER = [
 
 TEETH = [
     (None, '--'),
-    ('AA', 'AA'),
-    ('GR', 'GR')
+    ('KE', 'KE'),
+    ('KD', 'KD'),
+    ('KP', 'KP'),
+    ('RG', 'RG'),
+    ('Ab', 'Ab'),
+    ('GR', 'GR'),
+    ('GP', 'GP'),
+    ('PL', 'PL'),
+    ('M', 'M'),
+    ('I', 'I'),
+    ('P', 'P'),
 ]
 
 teeth_right_panels = [
@@ -102,7 +122,9 @@ class Patients(ClusterableModel):
         ),
 
         MultiFieldPanel([
-            HelpPanel(content=HELP_PANEL,
+            HelpPanel(content=HELP_PANEL_1,
+                      template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
+            HelpPanel(content=HELP_PANEL_2,
                       template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
             InlinePanel('teeth_upper_right', heading='Upper Right', label='Condition',
                         classname="collapsed",
@@ -112,7 +134,9 @@ class Patients(ClusterableModel):
                         min_num=0, max_num=1),
         ], heading='Upper Teeth Condition', classname="collapsed"),
         MultiFieldPanel([
-            HelpPanel(content=HELP_PANEL,
+            HelpPanel(content=HELP_PANEL_1,
+                      template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
+            HelpPanel(content=HELP_PANEL_2,
                       template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
             InlinePanel('teeth_lower_right', heading='Lower Right', label='Condition',
                         classname="collapsed",
