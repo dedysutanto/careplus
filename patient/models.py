@@ -1,4 +1,5 @@
 from django.db import models
+from doctor.models import Doctors
 from django.contrib.auth.models import User
 from modelcluster.models import ClusterableModel
 from django.utils.translation import gettext as _
@@ -203,6 +204,13 @@ class Soaps(Orderable):
             return {'user': user}
         else:
             return {}
+
+    doctor = models.ForeignKey(
+        Doctors,
+        on_delete=models.RESTRICT,
+        verbose_name=_('Doctor'),
+        limit_choices_to=limit_choices_to_current_user,
+    )
     datetime = models.DateTimeField('Date Time', default=now)
     soap = models.TextField(verbose_name=_('SOAP'), blank=True, null=True, default=SOAP)
     additional_info = models.TextField(verbose_name=_('Additional Information'), blank=True, null=True)
@@ -219,7 +227,7 @@ class Soaps(Orderable):
     updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     panels = [
-        FieldRowPanel([FieldPanel('patient'), FieldPanel('datetime')]),
+        FieldRowPanel([FieldPanel('doctor'), FieldPanel('patient'), FieldPanel('datetime')]),
         FieldPanel('soap'),
         FieldPanel('additional_info'),
     ]

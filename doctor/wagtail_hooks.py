@@ -9,7 +9,7 @@ class DoctorsPermissionHelper(PermissionHelper):
         return True
 
     def user_can_create(self, user):
-        if Doctors.objects.count() >= 1:
+        if Doctors.objects.count() >= 3:
             return False
         else:
             return True

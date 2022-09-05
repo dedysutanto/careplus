@@ -1,4 +1,5 @@
 from django.db import models
+from doctor.models import Doctors
 from django.contrib.auth.models import User
 from patient.models import Patients
 from modelcluster.models import ClusterableModel
@@ -12,6 +13,13 @@ from django.db.models import Sum
 
 
 class Invoices(ClusterableModel):
+    def limit_choices_to_current_user():
+        user = get_current_user()
+        if not user.is_superuser:
+            return {'user': user}
+        else:
+            return {}
+
     patient = models.ForeignKey(
         Patients,
         on_delete=models.CASCADE,
@@ -20,11 +28,18 @@ class Invoices(ClusterableModel):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
+    doctor = models.ForeignKey(
+        Doctors,
+        on_delete=models.RESTRICT,
+        verbose_name=_('Doctor'),
+        limit_choices_to=limit_choices_to_current_user,
+    )
+
     created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     panels = [
-        FieldRowPanel([FieldPanel('patient'), FieldPanel('datetime')]),
+        FieldRowPanel([FieldPanel('doctor'), FieldPanel('patient'), FieldPanel('datetime')]),
         InlinePanel('related_invoice', heading='Item', label='Detail Item',
                     min_num=None, max_num=None),
     ]

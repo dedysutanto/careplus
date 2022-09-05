@@ -15,6 +15,7 @@ class PatientsAdmin(ModelAdmin):
     add_to_admin_menu = True  # or False to exclude your model from the menu
     list_display = ('name', 'gender', 'dob', 'calculate_age', 'address')
     search_fields = ('name', 'dob')
+    #edit_template_name = 'patient/edit.html'
 
     def get_queryset(self, request):
         current_user = get_current_user()

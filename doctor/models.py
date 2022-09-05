@@ -28,6 +28,9 @@ class Doctors(models.Model):
         verbose_name = 'doctor'
         verbose_name_plural = 'doctors'
 
+    def __str__(self):
+        return '%s' % self.name
+
     def save(self):
         if self.user is None:
             self.user = get_current_user()
