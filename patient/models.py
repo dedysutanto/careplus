@@ -185,7 +185,7 @@ class Patients(ClusterableModel):
         self.name = self.name.upper()
         self.address = self.address.upper()
         number = Patients.objects.count() + 1
-        self.number = '{:8d}'.format(number)
+        self.number = '{:08d}'.format(number)
         return super(Patients, self).save()
 
     def calculate_age(self):
