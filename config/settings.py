@@ -206,7 +206,7 @@ LOGGING = {
 
 # WAGTAIL SETTINGS
 
-WAGTAILADMIN_BASE_URL = 'https://dentist.careplus.cloud'
+WAGTAILADMIN_BASE_URL = 'https://dental.careplus.cloud'
 # This is the human-readable name of your Wagtail install
 # which welcomes users upon login to the Wagtail admin.
 WAGTAIL_SITE_NAME = 'CarePlus'
