@@ -1,7 +1,35 @@
 from wagtail.contrib.modeladmin.options import (
-    ModelAdmin, modeladmin_register,)
+    ModelAdmin, modeladmin_register, PermissionHelper)
 from .models import Patients, Soaps
 from crum import get_current_user
+
+
+class PatientsPermissionHelper(PermissionHelper):
+    def user_can_list(self, user):
+        return True
+
+    def user_can_create(self, user):
+        return True
+
+    def user_can_delete_obj(self, user, obj):
+        return False
+
+    def user_can_edit_obj(self, user, obj):
+        return True
+
+
+class SoapsPermissionHelper(PermissionHelper):
+    def user_can_list(self, user):
+        return True
+
+    def user_can_create(self, user):
+        return True
+
+    def user_can_delete_obj(self, user, obj):
+        return False
+
+    def user_can_edit_obj(self, user, obj):
+        return True
 
 
 class PatientsAdmin(ModelAdmin):
@@ -15,6 +43,7 @@ class PatientsAdmin(ModelAdmin):
     add_to_admin_menu = True  # or False to exclude your model from the menu
     list_display = ('number', 'name', 'gender', 'dob', 'calculate_age', 'address')
     search_fields = ('number', 'name', 'dob')
+    permission_helper_class =  PatientsPermissionHelper
     #edit_template_name = 'patient/edit.html'
 
     def get_queryset(self, request):
@@ -37,6 +66,7 @@ class SoapsAdmin(ModelAdmin):
     list_display = ('patient', 'datetime', 'soap', 'additional_info',)
     #list_filter = ('',)
     search_fields = ('patient__name',)
+    permission_helper_class = SoapsPermissionHelper
 
     def get_queryset(self, request):
         current_user = get_current_user()
