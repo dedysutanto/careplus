@@ -59,7 +59,7 @@ class Invoices(ClusterableModel):
         total = InvoiceItems.objects.filter(invoice=self).aggregate(Sum('sub_total'))
         self.total = total['sub_total__sum']
 
-        if len(str(self.number)) is not 16:
+        if len(str(self.number)) != 16:
             number = Invoices.objects.filter(user=self.user).count() + 1
             prefix = 'INV{:04d}{:02d}'.format(self.user.id, self.doctor.id)
             self.number = '{}{:07d}'.format(prefix, number)

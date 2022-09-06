@@ -186,7 +186,7 @@ class Patients(ClusterableModel):
         self.name = self.name.upper()
         self.address = self.address.upper()
 
-        if len(str(self.number)) is not 16:
+        if len(str(self.number)) != 16:
             number = Patients.objects.filter(user=self.user).count() + 1
             prefix = 'MR{:04d}'.format(self.user.id)
             self.number = '{}{:010d}'.format(prefix, number)
@@ -265,7 +265,7 @@ class Soaps(Orderable):
         if self.user is None:
             self.user = get_current_user()
 
-        if len(str(self.number)) is not 16:
+        if len(str(self.number)) != 16:
             number = Soaps.objects.filter(user=self.user, doctor=self.doctor, patient=self.patient).count() + 1
             prefix = 'SOAP{:04d}{:02d}'.format(self.user.id, self.doctor.id)
             self.number = '{}{:06d}'.format(prefix, number)
