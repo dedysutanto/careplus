@@ -11,6 +11,7 @@ from crum import get_current_user
 from wagtail.admin import widgets
 from datetime import date
 from wagtail.images.edit_handlers import ImageChooserPanel
+from django.core.exceptions import ObjectDoesNotExist
 
 SOAP = """S:
 O:
@@ -184,11 +185,24 @@ class Patients(ClusterableModel):
 
         self.name = self.name.upper()
         self.address = self.address.upper()
-        if self.number is None:
+
+        if len(self.number) is 0 or 'MR1' not in self.number:
             number = Patients.objects.count() + 1
             self.number = 'MR1{:08d}'.format(number)
-        elif 'MR1' not in self.number:
-            self.number = 'MR1' + self.number
+            print('Number', self.number)
+
+        '''
+        try:
+            self.number
+            print('Number Exist', self.number)
+
+            if 'MR1' not in self.number:
+                self.number = 'MR1' + self.number
+        except ObjectDoesNotExist:
+            print('Number', self.number)
+            number = Patients.objects.count() + 1
+            self.number = 'MR1{:08d}'.format(number)
+        '''
 
         return super(Patients, self).save()
 
