@@ -186,11 +186,11 @@ class Patients(ClusterableModel):
         self.name = self.name.upper()
         self.address = self.address.upper()
 
-        if len(self.number) is 0:
+        if len(str(self.number)) is not 16:
             number = Patients.objects.filter(user=self.user).count() + 1
             prefix = 'MR{:04d}'.format(self.user.id)
             self.number = '{}{:010d}'.format(prefix, number)
-            print('Number', self.number)
+            print('Medical Record', self.number)
 
         '''
         try:
