@@ -108,7 +108,7 @@ teeth_left_panels = [
 
 
 class Patients(ClusterableModel):
-    number = models.CharField(_('Number'), max_length=8, unique=True)
+    number = models.CharField(_('Number'), max_length=16, unique=True)
     name = models.CharField(max_length=100, verbose_name=_('Name'))
     gender = models.CharField(max_length=3, verbose_name=_('Gender'), choices=GENDER, default='M')
     dob = models.DateField(verbose_name=_('Date of Birth'))
