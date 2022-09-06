@@ -1,16 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from django.urls import reverse
 from invoice.models import Invoices, InvoiceItems
 from django.db.models import Sum
-from django import template
-
-register = template.Library()
-
-
-@register.filter
-def multiply(value, arg):
-    return value * arg
 
 
 def print_invoice(request, invoice_number):

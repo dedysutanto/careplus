@@ -2,17 +2,15 @@ from django.db import models
 from doctor.models import Doctors
 from django.contrib.auth.models import User
 from modelcluster.models import ClusterableModel
-from django.utils.translation import gettext as _
-from wagtail.models import Orderable, Page
+from django.utils.translation import gettext_lazy as _
+from wagtail.models import Orderable
 from modelcluster.fields import ParentalKey
 from django.utils.timezone import now
 from wagtail.admin.panels import FieldPanel, InlinePanel, FieldRowPanel, MultiFieldPanel, HelpPanel
 from crum import get_current_user
 from wagtail.admin import widgets
-from datetime import date
 from config.utils import calculate_age
-from wagtail.images.edit_handlers import ImageChooserPanel
-from django.core.exceptions import ObjectDoesNotExist
+
 
 SOAP = """S:
 O:
@@ -110,13 +108,13 @@ teeth_left_panels = [
 
 
 class Patients(ClusterableModel):
-    number = models.CharField(_('Number'), max_length=16, unique=True)
+    number = models.CharField(_('ID'), max_length=16, unique=True)
     name = models.CharField(max_length=100, verbose_name=_('Name'))
     gender = models.CharField(max_length=3, verbose_name=_('Gender'), choices=GENDER, default='M')
     dob = models.DateField(verbose_name=_('Date of Birth'))
     address = models.TextField(verbose_name=_('Address'), blank=True, null=True)
-    phone = models.CharField(max_length=50, verbose_name='Telephone/HP', blank=True, null=True)
-    email = models.EmailField('Email', blank=True, null=True)
+    phone = models.CharField(max_length=50, verbose_name=_('Telephone/HP'), blank=True, null=True)
+    email = models.EmailField(_('Email'), blank=True, null=True)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
@@ -232,14 +230,14 @@ class Soaps(Orderable):
         else:
             return {}
 
-    number = models.CharField(_('Number'), max_length=16, unique=True)
+    number = models.CharField(_('ID'), max_length=16, unique=True)
     doctor = models.ForeignKey(
         Doctors,
         on_delete=models.RESTRICT,
         verbose_name=_('Doctor'),
         limit_choices_to=limit_choices_to_current_user,
     )
-    datetime = models.DateTimeField('Date Time', default=now)
+    datetime = models.DateTimeField(_('Date Time'), default=now)
     soap = models.TextField(verbose_name=_('SOAP'), blank=True, null=True, default=SOAP)
     additional_info = models.TextField(verbose_name=_('Additional Information'), blank=True, null=True)
     patient = ParentalKey(

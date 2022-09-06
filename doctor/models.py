@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from crum import get_current_user
-from django.utils.translation import gettext as _
-from wagtail.admin.panels import FieldPanel, InlinePanel, FieldRowPanel, MultiFieldPanel, HelpPanel
+from django.utils.translation import gettext_lazy as _
+from wagtail.admin.panels import FieldPanel, FieldRowPanel
 
 
 class Doctors(models.Model):

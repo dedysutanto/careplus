@@ -5,10 +5,10 @@ from patient.models import Patients
 from modelcluster.models import ClusterableModel
 from wagtail.models import Orderable
 from modelcluster.fields import ParentalKey
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from django.utils.timezone import now
 from crum import get_current_user
-from wagtail.admin.panels import FieldPanel, InlinePanel, FieldRowPanel, MultiFieldPanel, HelpPanel
+from wagtail.admin.panels import FieldPanel, InlinePanel, FieldRowPanel
 from django.db.models import Sum
 from django.utils.html import format_html
 
@@ -20,12 +20,12 @@ class Invoices(ClusterableModel):
             return {'user': user}
         else:
             return {}
-    number = models.CharField(_('Number'), max_length=16, unique=True)
+    number = models.CharField(_('ID'), max_length=16, unique=True)
     patient = models.ForeignKey(
         Patients,
         on_delete=models.CASCADE,
     )
-    datetime = models.DateTimeField('Date Time', default=now)
+    datetime = models.DateTimeField(_('Date Time'), default=now)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
@@ -75,7 +75,7 @@ class Invoices(ClusterableModel):
 
     def patient_number(self):
         return format_html('{}</br>{}', self.patient, self.patient.number)
-    patient_number.short_description = 'Patient'
+    patient_number.short_description = _('Patient')
 
 
 class InvoiceItems(Orderable):

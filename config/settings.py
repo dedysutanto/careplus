@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-
+from django.utils.translation import gettext_lazy as _
 
 load_dotenv()
 
@@ -136,6 +136,7 @@ LANGUAGE_CODE = 'id-id'
 TIME_ZONE = 'Asia/Jakarta'
 
 USE_I18N = True
+#WAGTAIL_I18N_ENABLED = True
 
 USE_TZ = True
 
@@ -241,3 +242,7 @@ TAGGIT_CASE_INSENSITIVE = True
 
 #SE_THOUSAND_SEPARATOR = True
 
+LANGUAGES = WAGTAIL_CONTENT_LANGUAGES = [
+    ('en-us', _("English")),
+    ('id-id', _("Indonesia")),
+]
