@@ -9,16 +9,22 @@ class DoctorsPermissionHelper(PermissionHelper):
         return True
 
     def user_can_create(self, user):
-        if Doctors.objects.count() >= 3:
+        if user.is_superuser:
             return False
         else:
-            return True
+            if Doctors.objects.count() >= 3:
+                return False
+            else:
+                return True
 
     def user_can_delete_obj(self, user, obj):
         return False
 
     def user_can_edit_obj(self, user, obj):
-        return True
+        if user.is_superuser:
+            return False
+        else:
+            return True
 
 
 class DoctorsAdmin(ModelAdmin):

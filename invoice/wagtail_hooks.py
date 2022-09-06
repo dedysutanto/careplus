@@ -1,7 +1,33 @@
 from wagtail.contrib.modeladmin.options import (
-    ModelAdmin, modeladmin_register, )
+    ModelAdmin, modeladmin_register, PermissionHelper)
 from .models import Invoices
 from crum import get_current_user
+
+
+class InvoicesPermissionHelper(PermissionHelper):
+    def user_can_list(self, user):
+        return True
+
+    def user_can_create(self, user):
+        if user.is_superuser:
+            return False
+        else:
+            return True
+
+    def user_can_delete_obj(self, user, obj):
+        return False
+
+    def user_can_edit_obj(self, user, obj):
+        if user.is_superuser:
+            return False
+        else:
+            return True
+            '''
+            if obj.is_final:
+                return False
+            else:
+                return True
+            '''
 
 
 class InvoicesAdmin(ModelAdmin):
@@ -17,6 +43,7 @@ class InvoicesAdmin(ModelAdmin):
     list_filter = ('doctor',)
     search_fields = ('number', 'doctor', 'patient__name', 'dob')
     ordering = ['-number']
+    permission_helper_class = InvoicesPermissionHelper
 
     def get_queryset(self, request):
         current_user = get_current_user()

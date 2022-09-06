@@ -9,13 +9,19 @@ class PatientsPermissionHelper(PermissionHelper):
         return True
 
     def user_can_create(self, user):
-        return True
+        if user.is_superuser:
+            return False
+        else:
+            return True
 
     def user_can_delete_obj(self, user, obj):
         return False
 
     def user_can_edit_obj(self, user, obj):
-        return True
+        if user.is_superuser:
+            return False
+        else:
+            return True
 
 
 class SoapsPermissionHelper(PermissionHelper):
@@ -23,13 +29,19 @@ class SoapsPermissionHelper(PermissionHelper):
         return True
 
     def user_can_create(self, user):
-        return True
+        if user.is_superuser:
+            return False
+        else:
+            return True
 
     def user_can_delete_obj(self, user, obj):
         return False
 
     def user_can_edit_obj(self, user, obj):
-        return True
+        if user.is_superuser:
+            return False
+        else:
+            return True
 
 
 class PatientsAdmin(ModelAdmin):
