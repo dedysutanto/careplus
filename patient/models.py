@@ -186,9 +186,9 @@ class Patients(ClusterableModel):
         self.address = self.address.upper()
         if self.number is None:
             number = Patients.objects.count() + 1
-            self.number = 'MR{:08d}'.format(number)
-        elif 'MR' not in self.number:
-            self.number = 'MR' + self.number
+            self.number = 'MR1{:08d}'.format(number)
+        elif 'MR1' not in self.number:
+            self.number = 'MR1' + self.number
 
         return super(Patients, self).save()
 
