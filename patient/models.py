@@ -10,6 +10,7 @@ from wagtail.admin.panels import FieldPanel, InlinePanel, FieldRowPanel, MultiFi
 from crum import get_current_user
 from wagtail.admin import widgets
 from datetime import date
+from config.utils import calculate_age
 from wagtail.images.edit_handlers import ImageChooserPanel
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -208,13 +209,17 @@ class Patients(ClusterableModel):
         return super(Patients, self).save()
 
     def calculate_age(self):
+        '''
+
         today = date.today()
         try:
             age = (today.year - self.dob.year) \
                   - ((today.month, today.day) < (self.dob.month, self.dob.day))
         except ValueError:
             age = 0
-        return '%d' % age
+        #return '%d' % age
+        '''
+        return '%d' % calculate_age(self.dob)
 
     calculate_age.short_description = _('Age')
 

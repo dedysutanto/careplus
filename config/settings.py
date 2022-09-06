@@ -130,7 +130,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+#LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'id-id'
 
 TIME_ZONE = 'Asia/Jakarta'
 
@@ -216,7 +217,7 @@ LOGGING = {
 WAGTAILADMIN_BASE_URL = 'https://dental.careplus.cloud'
 # This is the human-readable name of your Wagtail install
 # which welcomes users upon login to the Wagtail admin.
-WAGTAIL_SITE_NAME = 'CarePlus'
+WAGTAIL_SITE_NAME = 'CarePlus Dental'
 
 # CSRF
 CSRF_TRUSTED_ORIGINS = [WAGTAILADMIN_BASE_URL]
@@ -237,3 +238,6 @@ CSRF_TRUSTED_ORIGINS = [WAGTAILADMIN_BASE_URL]
 
 # Reverse the default case-sensitive handling of tags
 TAGGIT_CASE_INSENSITIVE = True
+
+#SE_THOUSAND_SEPARATOR = True
+

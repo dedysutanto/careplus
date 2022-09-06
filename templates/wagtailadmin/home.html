@@ -9,11 +9,11 @@
 
 {% block content %}
     {% fragment as header_title %}
-        {% block branding_welcome %}{% blocktrans trimmed %}Welcome to {{ site_name }}{% endblocktrans %}{% endblock %}
+        {% block branding_welcome %}{% blocktrans trimmed %}{{ site_name }}{% endblocktrans %}{% endblock %}
     {% endfragment %}
 
     {% avatar_url user as avatar %}
-    {% include "wagtailadmin/shared/header.html" with title=header_title description=user|user_display_name avatar=avatar merged=1 %}
+    {% include "wagtailadmin/shared/header.html" with title=user|user_display_name description=header_title avatar=avatar merged=1 %}
 
     <div class="nice-padding">
         {% if panels %}

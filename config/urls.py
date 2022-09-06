@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.views.generic.base import RedirectView
 from django.contrib import admin
 from django.conf import settings
+from invoice.views import print_invoice
 import os.path
 
 from wagtail import urls as wagtail_urls
@@ -15,6 +16,8 @@ urlpatterns = [
 
     path('login/', include(wagtailadmin_urls)),
     path('documents/', include(wagtaildocs_urls)),
+
+    path('invoice/print/<str:invoice_number>/', print_invoice, name='print-invoice'),
 
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's serving mechanism

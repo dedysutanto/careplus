@@ -36,15 +36,16 @@ class Invoices(ClusterableModel):
         limit_choices_to=limit_choices_to_current_user,
     )
 
-    is_final = models.BooleanField(default=False)
+    is_final = models.BooleanField(_('Check and Correct'), default=False)
 
     created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     panels = [
         FieldRowPanel([FieldPanel('doctor'), FieldPanel('patient'), FieldPanel('datetime')]),
-        InlinePanel('related_invoice', heading='Item', label='Detail Item',
+        InlinePanel('related_invoice', heading='Items', label='Detail Item',
                     min_num=None, max_num=None),
+        FieldPanel('is_final')
     ]
 
     class Meta:

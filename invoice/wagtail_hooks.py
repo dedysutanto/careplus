@@ -1,7 +1,68 @@
 from wagtail.contrib.modeladmin.options import (
-    ModelAdmin, modeladmin_register, PermissionHelper)
+    ModelAdmin, modeladmin_register, PermissionHelper, EditView, ButtonHelper)
 from .models import Invoices
 from crum import get_current_user
+from django.utils.translation import gettext as _
+from django.urls import reverse
+
+
+class InvoicesButton(ButtonHelper):
+    verbose_name = 'Print'
+
+    send_classnames = ['button-small button-secondary']
+    print_classnames = ['button-small button-secondary']
+
+    def print_button(self, instance):
+        # Define a label for our button
+        text = _('Print')
+        return {
+            'url': reverse('print-invoice', args=(instance.number,)),
+            'label': text,
+            'classname': self.finalise_classname(self.print_classnames),
+            'title': text,
+        }
+
+    def send_button(self, instance):
+
+        # Define a label for our button
+        text = _('Send by Email')
+        return {
+            'url': self.url_helper.index_url, # Modify this to get correct action
+            'label': text,
+            'classname': self.finalise_classname(self.send_classnames),
+            'title': text,
+        }
+
+    def get_buttons_for_obj(
+        self, instance, exclude=None, classnames_add=None, classnames_exclude=None
+    ):
+        """
+        This function is used to gather all available buttons.
+        We append our custom button to the btns list.
+        """
+        buttons = super().get_buttons_for_obj(
+            instance, exclude, classnames_add, classnames_exclude
+        )
+        if 'print_button' not in (exclude or []):
+            if instance.is_final:
+                buttons.append(self.print_button(instance))
+
+        '''
+        if 'send_button' not in (exclude or []):
+            if instance.is_final and instance.patient.email is not None:
+                buttons.append(self.send_button(instance))
+        '''
+        return buttons
+
+
+class InvoicesEditView(EditView):
+    page_title = 'Editing'
+
+    def get_page_title(self):
+        return 'Invoice'
+
+    def get_page_subtitle(self):
+        return '%s' % self.instance.number
 
 
 class InvoicesPermissionHelper(PermissionHelper):
@@ -44,6 +105,8 @@ class InvoicesAdmin(ModelAdmin):
     search_fields = ('number', 'doctor', 'patient__name', 'dob')
     ordering = ['-number']
     permission_helper_class = InvoicesPermissionHelper
+    edit_view_class = InvoicesEditView
+    button_helper_class = InvoicesButton
 
     def get_queryset(self, request):
         current_user = get_current_user()

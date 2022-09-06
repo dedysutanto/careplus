@@ -1,7 +1,28 @@
 from wagtail.contrib.modeladmin.options import (
-    ModelAdmin, modeladmin_register, PermissionHelper)
+    ModelAdmin, modeladmin_register, PermissionHelper, EditView)
 from .models import Patients, Soaps
 from crum import get_current_user
+from config.utils import calculate_age
+
+
+class PatientsEditView(EditView):
+    page_title = 'Editing'
+
+    def get_page_title(self):
+        return 'Patient'
+
+    def get_page_subtitle(self):
+        return '%s (%d)' % (self.instance, calculate_age(self.instance.dob))
+
+
+class SoapsEditView(EditView):
+    page_title = 'Editing'
+
+    def get_page_title(self):
+        return 'SOAP'
+
+    def get_page_subtitle(self):
+        return '%s (%d)' % (self.instance.patient.name, calculate_age(self.instance.patient.dob))
 
 
 class PatientsPermissionHelper(PermissionHelper):
@@ -57,6 +78,8 @@ class PatientsAdmin(ModelAdmin):
     search_fields = ('number', 'name', 'dob')
     permission_helper_class =  PatientsPermissionHelper
     ordering = ['-number']
+    #edit_template_name = 'patient/edit.html'
+    edit_view_class = PatientsEditView
 
     def get_queryset(self, request):
         current_user = get_current_user()
@@ -80,6 +103,7 @@ class SoapsAdmin(ModelAdmin):
     search_fields = ('number', 'doctor', 'patient__name',)
     ordering = ['-number']
     permission_helper_class = SoapsPermissionHelper
+    edit_view_class = SoapsEditView
 
     def get_queryset(self, request):
         current_user = get_current_user()
