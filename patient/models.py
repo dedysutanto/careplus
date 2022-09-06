@@ -186,7 +186,10 @@ class Patients(ClusterableModel):
         self.address = self.address.upper()
         if self.number is None:
             number = Patients.objects.count() + 1
-            self.number = '{:08d}'.format(number)
+            self.number = 'MR{:08d}'.format(number)
+        elif 'MR' is not in self.number:
+            self.number = 'MR' + self.number
+
         return super(Patients, self).save()
 
     def calculate_age(self):
