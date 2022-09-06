@@ -29,7 +29,7 @@ sqlparse==0.4.2
 tablib==3.2.1
 telepath==0.2
 urllib3==1.26.12
-wagtail==4.0
+wagtail==4.0.1
 webencodings==0.5.1
 Willow==1.4.1
 xlrd==2.0.1
