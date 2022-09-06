@@ -13,9 +13,10 @@ class InvoicesAdmin(ModelAdmin):
     add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
     exclude_from_explorer = False  # or True to exclude pages of this type from Wagtail's explorer view
     add_to_admin_menu = True  # or False to exclude your model from the menu
-    list_display = ('doctor', 'patient', 'datetime', 'calculate_total')
+    list_display = ('number', 'doctor', 'patient_number', 'datetime', 'calculate_total')
     list_filter = ('doctor',)
-    search_fields = ('doctor', 'patient__name', 'dob')
+    search_fields = ('number', 'doctor', 'patient__name', 'dob')
+    ordering = ['-number']
 
     def get_queryset(self, request):
         current_user = get_current_user()

@@ -10,6 +10,7 @@ from django.utils.timezone import now
 from crum import get_current_user
 from wagtail.admin.panels import FieldPanel, InlinePanel, FieldRowPanel, MultiFieldPanel, HelpPanel
 from django.db.models import Sum
+from django.utils.html import format_html
 
 
 class Invoices(ClusterableModel):
@@ -35,6 +36,8 @@ class Invoices(ClusterableModel):
         limit_choices_to=limit_choices_to_current_user,
     )
 
+    is_final = models.BooleanField(default=False)
+
     created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
 
@@ -58,7 +61,7 @@ class Invoices(ClusterableModel):
 
         if len(str(self.number)) is not 16:
             number = Invoices.objects.filter(user=self.user).count() + 1
-            prefix = 'INV{:04d}{:02d}'.format(self.user.id,self.doctor.id)
+            prefix = 'INV{:04d}{:02d}'.format(self.user.id, self.doctor.id)
             self.number = '{}{:07d}'.format(prefix, number)
             print('Invoice', self.number)
 
@@ -68,6 +71,10 @@ class Invoices(ClusterableModel):
         total = InvoiceItems.objects.filter(invoice=self).aggregate(Sum('sub_total'))
         return total['sub_total__sum']
     calculate_total.short_description = 'Total'
+
+    def patient_number(self):
+        return format_html('{}</br>{}', self.patient, self.patient.number)
+    patient_number.short_description = 'Patient'
 
 
 class InvoiceItems(Orderable):
