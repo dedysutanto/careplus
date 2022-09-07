@@ -135,7 +135,7 @@ LANGUAGE_CODE = 'id-id'
 
 TIME_ZONE = 'Asia/Jakarta'
 
-USE_I18N = True
+USE_I18N = False
 #WAGTAIL_I18N_ENABLED = True
 
 USE_TZ = True
@@ -242,10 +242,10 @@ TAGGIT_CASE_INSENSITIVE = True
 
 #SE_THOUSAND_SEPARATOR = True
 
-LANGUAGES = WAGTAIL_CONTENT_LANGUAGES = [
-    ('en-us', _("English")),
-    ('id-id', _("Indonesia")),
-]
+#LANGUAGES = WAGTAIL_CONTENT_LANGUAGES = [
+#    ('en-us', _("English")),
+#    ('id-id', _("Indonesia")),
+#]
 
 # Email
 EMAIL_BACKEND = str(os.getenv(('EMAIL_BACKEND')))
