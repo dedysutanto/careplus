@@ -279,8 +279,8 @@ class Soaps(Orderable):
 
         if len(str(self.number)) != 16:
             number = Soaps.objects.filter(user=self.user, doctor=self.doctor, patient=self.patient).count() + 1
-            prefix = 'SOAP{:04d}{:02d}'.format(self.user.id, self.doctor.id)
-            self.number = '{}{:06d}'.format(prefix, number)
+            prefix = 'SOAP{:04d}{:02d}{:03}'.format(self.user.id, self.doctor.id, self.patient.id)
+            self.number = '{}{:03d}'.format(prefix, number)
             print('SOAP', self.number)
         return super(Soaps, self).save()
 
