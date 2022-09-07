@@ -2,9 +2,10 @@ from django.shortcuts import render
 from invoice.models import Invoices, InvoiceItems
 from django.db.models import Sum
 from django.core.mail import EmailMessage
-from django.template import Context
 from django.template.loader import get_template
 from config import settings
+from django.contrib.auth.decorators import login_required
+from django.http import Http404
 
 
 def get_invoice_context(invoice_number):
@@ -21,6 +22,7 @@ def get_invoice_context(invoice_number):
     return invoice, context
 
 
+@login_required
 def print_invoice(request, invoice_number):
     invoice, context = get_invoice_context(invoice_number)
 
@@ -44,4 +46,7 @@ def print_invoice(request, invoice_number):
 def html_invoice(request, invoice_number):
     invoice, context = get_invoice_context(invoice_number)
 
-    return render(request, 'invoice/browser.html', context)
+    if invoice.is_final:
+        return render(request, 'invoice/browser.html', context)
+    else:
+        raise Http404('Not found!')
