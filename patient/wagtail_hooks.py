@@ -98,7 +98,10 @@ class SoapsAdmin(ModelAdmin):
     add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
     exclude_from_explorer = False  # or True to exclude pages of this type from Wagtail's explorer view
     add_to_admin_menu = True  # or False to exclude your model from the menu
-    list_display = ('number', 'doctor', 'patient', 'datetime', 'soap', 'additional_info',)
+    list_display = (
+        'number', 'doctor', 'patient', 'datetime', 'subjective', 'objective',
+        'assessment', 'plan', 'additional_info',
+    )
     list_filter = ('doctor',)
     search_fields = ('number', 'doctor', 'patient__name',)
     ordering = ['-number']

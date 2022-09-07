@@ -1,7 +1,7 @@
 from django.db import models
 from doctor.models import Doctors
 from django.contrib.auth.models import User
-from patient.models import Patients
+from patient.models import Patients, Soaps
 from modelcluster.models import ClusterableModel
 from wagtail.models import Orderable
 from modelcluster.fields import ParentalKey
@@ -36,7 +36,14 @@ class Invoices(ClusterableModel):
         limit_choices_to=limit_choices_to_current_user,
     )
 
+    soap = models.ForeignKey(
+        Soaps,
+        on_delete=models.CASCADE,
+        null=True
+    )
+
     is_final = models.BooleanField(_('Check and Correct'), default=False)
+    is_email = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
@@ -65,6 +72,10 @@ class Invoices(ClusterableModel):
             prefix = 'INV{:04d}{:02d}'.format(self.user.id, self.doctor.id)
             self.number = '{}{:07d}'.format(prefix, number)
             print('Invoice', self.number)
+
+        if self.soap is None:
+            self.soap = Soaps.objects.filter(
+                doctor=self.doctor, patient=self.patient).order_by('datetime', 'number').last()
 
         return super(Invoices, self).save()
 

@@ -238,7 +238,11 @@ class Soaps(Orderable):
         limit_choices_to=limit_choices_to_current_user,
     )
     datetime = models.DateTimeField(_('Date Time'), default=now)
-    soap = models.TextField(verbose_name=_('SOAP'), blank=True, null=True, default=SOAP)
+    subjective = models.TextField(_('Subjective'))
+    objective = models.TextField(_('Objective'))
+    assessment = models.TextField(_('Assessment'))
+    plan = models.TextField(_('Plan'))
+
     additional_info = models.TextField(verbose_name=_('Additional Information'), blank=True, null=True)
     patient = ParentalKey(
         'Patients',
@@ -254,7 +258,12 @@ class Soaps(Orderable):
 
     panels = [
         FieldRowPanel([FieldPanel('doctor'), FieldPanel('patient'), FieldPanel('datetime')]),
-        FieldPanel('soap'),
+        MultiFieldPanel([
+            FieldPanel('subjective'),
+            FieldPanel('objective'),
+            FieldPanel('assessment'),
+            FieldPanel('plan'),
+        ], heading='SOAP'),
         FieldPanel('additional_info'),
     ]
 

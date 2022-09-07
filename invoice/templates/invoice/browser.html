@@ -2,7 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% versioned_static 'invoice/css/style.css' %}">
+    <link rel="stylesheet" href="{{ careplus_base_url }}{% versioned_static 'invoice/css/style-plain.css' %}">
     <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js'></script>
     <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/1f8a7ef47d.js" crossorigin="anonymous"></script>
@@ -16,7 +16,7 @@
     			<div class="receipt-header">
 					<div class="col-xs-6 col-sm-6 col-md-6">
 						<div class="receipt-left">
-							<img class="img-responsive" alt="careplus" src="{% versioned_static 'dashboard/images/careplus.png' %}" style="width: 80px; height: 50px;">
+							<img class="img-responsive" alt="careplus" src="{{ careplus_base_url }}{% versioned_static 'dashboard/images/careplus.png' %}" style="width: 80px; height: 50px;">
 						</div>
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 text-right">
@@ -54,7 +54,8 @@
 					</div>
 					<div class="col-xs-4 col-sm-4 col-md-4">
 						<div class="text-right">
-							<h3>{{ invoice.number }}</h3>
+							<h5>{{ invoice.number }}</h5>
+                            <p>{{ invoice.datetime }}</p>
 						</div>
 					</div>
 				</div>
@@ -93,7 +94,8 @@
 				<div class="receipt-header receipt-header-mid receipt-footer">
 					<div class="col-xs-8 col-sm-8 col-md-8 text-left">
 						<div class="receipt-right">
-							<p><b>Date :</b> {{ invoice.datetime }}</p>
+							<p><b>Diagnosis ({{ invoice.soap.number }})</b></p>
+                            <p>{{ invoice.soap.assessment|linebreaks }}</p>
 							<h5 style="color: rgb(140, 140, 140);">Stay Healthy!</h5>
 						</div>
 					</div>
