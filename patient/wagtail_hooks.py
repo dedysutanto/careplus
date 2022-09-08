@@ -74,9 +74,9 @@ class PatientsAdmin(ModelAdmin):
     add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
     exclude_from_explorer = False  # or True to exclude pages of this type from Wagtail's explorer view
     add_to_admin_menu = True  # or False to exclude your model from the menu
-    list_display = ('number', 'name', 'gender', 'dob', 'calculate_age', 'address')
+    list_display = ('number', 'name', 'gender', 'dob', 'calculate_age', 'phone', 'address', 'next_visit')
     search_fields = ('number', 'name', 'dob')
-    permission_helper_class =  PatientsPermissionHelper
+    permission_helper_class = PatientsPermissionHelper
     ordering = ['-number']
     #edit_template_name = 'patient/edit.html'
     edit_view_class = PatientsEditView

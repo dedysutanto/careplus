@@ -10,6 +10,7 @@ from wagtail.admin.panels import FieldPanel, InlinePanel, FieldRowPanel, MultiFi
 from crum import get_current_user
 from wagtail.admin import widgets
 from config.utils import calculate_age
+from django.core.exceptions import ObjectDoesNotExist
 
 
 SOAP = """S:
@@ -168,6 +169,10 @@ class Patients(ClusterableModel):
         InlinePanel('related_patient', heading="Related SOAP", label='Detail SOAP',
                     classname="collapsed",
                     min_num=None, max_num=None),
+
+        InlinePanel('next_appointment', heading="Next Visit", label='Date Time',
+                    min_num=0, max_num=1),
+
     ]
 
     class Meta:
@@ -220,6 +225,25 @@ class Patients(ClusterableModel):
         return '%d' % calculate_age(self.dob)
 
     calculate_age.short_description = _('Age')
+
+    def next_visit(self):
+        try:
+            #pass
+            next_v = NextAppointment.objects.get(patient=self)
+            #print('NP')
+            #format_data = "%d/%m/%y %H:%M:%S.%f"
+            from datetime import datetime
+            #result = datetime.strptime(next_v.datetime, format_data)
+            return '%s' % next_v.datetime.strftime("%A %d %b %Y, %H:%M")
+            #return '%s' % 'sakdjakslhdlash'
+
+        except ObjectDoesNotExist:
+            #print('NOOONNNEE')
+            return '%s' % _('No appointment')
+
+        #return '%s' % self.name
+
+    next_visit.short_description = _('Next Visit')
 
 
 class Soaps(Orderable):
@@ -338,6 +362,16 @@ class TeethLowerLeft(Orderable, Teeth):
 
     class Meta:
         db_table = 'teeth_lower_left'
+
+
+class NextAppointment(Orderable):
+    datetime = models.DateTimeField(_('Date Time'), null=True, blank=True)
+    patient = ParentalKey('Patients', on_delete=models.CASCADE, related_name='next_appointment')
+
+    panels = [FieldPanel('datetime')]
+
+    class Meta:
+        db_table = 'next_appointment'
 
 '''
 class MedicalImage(Orderable):
