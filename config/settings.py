@@ -143,7 +143,9 @@ USE_TZ = True
 USE_L10N = False
 
 
-DATE_FORMAT = 'j N Y'
+USE_THOUSAND_SEPARATOR = True
+THOUSAND_SEPARATOR = '.'
+#DATE_FORMAT = 'j N Y'
 #DATE_INPUT_FORMATS = 'd-m-Y'
 
 # Default primary key field type
@@ -220,6 +222,13 @@ WAGTAILADMIN_BASE_URL = str(os.getenv(('WAGTAILADMIN_BASE_URL')))
 # This is the human-readable name of your Wagtail install
 # which welcomes users upon login to the Wagtail admin.
 WAGTAIL_SITE_NAME = 'CarePlus Dental'
+
+#WAGTAIL_DATE_FORMAT = '%d-%m-%Y'
+#WAGTAIL_DATETIME_FORMAT = '%d-%m-%Y %H:%M'
+#WAGTAIL_TIME_FORMAT = '%H:%M'
+WAGTAIL_PASSWORD_RESET_ENABLED = False
+WAGTAIL_GRAVATAR_PROVIDER_URL = '//www.gravatar.com/avatar'
+WAGTAILADMIN_NOTIFICATION_FROM_EMAIL = 'noreply@careplus.cloud'
 
 # CSRF
 CSRF_TRUSTED_ORIGINS = [WAGTAILADMIN_BASE_URL]

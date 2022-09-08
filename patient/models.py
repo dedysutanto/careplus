@@ -167,8 +167,7 @@ class Patients(ClusterableModel):
         ], heading='Lower Teeth Condition', classname="collapsed"),
 
         InlinePanel('related_patient', heading="Related SOAP", label='Detail SOAP',
-                    classname="collapsed",
-                    min_num=None, max_num=None),
+                    classname="collapsed"),
 
         InlinePanel('next_appointment', heading="Next Visit", label='Date Time',
                     min_num=0, max_num=1),
@@ -228,20 +227,12 @@ class Patients(ClusterableModel):
 
     def next_visit(self):
         try:
-            #pass
             next_v = NextAppointment.objects.get(patient=self)
-            #print('NP')
-            #format_data = "%d/%m/%y %H:%M:%S.%f"
             from datetime import datetime
-            #result = datetime.strptime(next_v.datetime, format_data)
             return '%s' % next_v.datetime.strftime("%A %d %b %Y, %H:%M")
-            #return '%s' % 'sakdjakslhdlash'
 
         except ObjectDoesNotExist:
-            #print('NOOONNNEE')
             return '%s' % _('No appointment')
-
-        #return '%s' % self.name
 
     next_visit.short_description = _('Next Visit')
 

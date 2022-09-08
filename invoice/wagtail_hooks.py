@@ -1,9 +1,12 @@
 from wagtail.contrib.modeladmin.options import (
     ModelAdmin, modeladmin_register, PermissionHelper, EditView, ButtonHelper)
-from .models import Invoices
+from .models import Invoices, InvoiceItems
 from crum import get_current_user
 from django.utils.translation import gettext as _
 from django.urls import reverse
+from django.utils.html import format_html
+from wagtail.admin.panels import FieldPanel, InlinePanel, FieldRowPanel, ObjectList
+from django.db.models import Sum
 
 
 class InvoicesButton(ButtonHelper):
@@ -33,6 +36,18 @@ class InvoicesButton(ButtonHelper):
             'title': text,
         }
 
+    view_button_classnames = ["button-small", "icon", "icon-site"]
+
+    def view_button(self, obj):
+        # Define a label for our button
+        text = "View {}".format(self.verbose_name)
+        return {
+            "url": obj.get_edit_url(),  # decide where the button links to
+            "label": text,
+            "classname": self.finalise_classname(self.view_button_classnames),
+            "title": text,
+        }
+
     def get_buttons_for_obj(
         self, instance, exclude=None, classnames_add=None, classnames_exclude=None
     ):
@@ -43,9 +58,12 @@ class InvoicesButton(ButtonHelper):
         buttons = super().get_buttons_for_obj(
             instance, exclude, classnames_add, classnames_exclude
         )
-        if 'print_button' not in (exclude or []):
+        if 'print_button' not in (exclude or []) and not instance.is_cancel:
             if instance.is_final:
                 buttons.append(self.print_button(instance))
+
+        #if "view" not in (exclude or []):
+        #    buttons.append(self.view_button(instance))
 
         '''
         if 'send_button' not in (exclude or []):
@@ -62,7 +80,23 @@ class InvoicesEditView(EditView):
         return 'Invoice'
 
     def get_page_subtitle(self):
-        return '%s' % self.instance.number
+        total = InvoiceItems.objects.filter(invoice=self.instance).aggregate(Sum('sub_total'))
+
+        if self.instance.is_cancel:
+            text = format_html('{} - Rp. {} <strong>(CANCELLED)</strong>',
+                               self.instance.number,
+                               '{:,}'.format(total['sub_total__sum']).replace(',', '.'))
+        elif self.instance.is_final:
+
+            text = format_html('{} - Rp. {} <strong>(CHECK and CORRECT)</strong>',
+                               self.instance.number,
+                               '{:,}'.format(total['sub_total__sum']).replace(',', '.'))
+        else:
+            text = format_html('{} - Rp. {} </strong>',
+                               self.instance.number,
+                               '{:,}'.format(total['sub_total__sum']).replace(',', '.'))
+
+        return '%s' % text
 
 
 class InvoicesPermissionHelper(PermissionHelper):
@@ -100,13 +134,14 @@ class InvoicesAdmin(ModelAdmin):
     add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
     exclude_from_explorer = False  # or True to exclude pages of this type from Wagtail's explorer view
     add_to_admin_menu = True  # or False to exclude your model from the menu
-    list_display = ('number', 'doctor', 'patient_number', 'datetime', 'calculate_total')
+    list_display = ('number', 'doctor', 'patient_number', 'datetime', 'calculate_total', 'is_final', 'is_cancel')
     list_filter = ('doctor',)
     search_fields = ('number', 'doctor', 'patient__name', 'dob')
     ordering = ['-number']
     permission_helper_class = InvoicesPermissionHelper
     edit_view_class = InvoicesEditView
     button_helper_class = InvoicesButton
+    form_view_extra_js = ['invoice/js/invoice.js']
 
     def get_queryset(self, request):
         current_user = get_current_user()
@@ -115,5 +150,16 @@ class InvoicesAdmin(ModelAdmin):
         else:
             return Invoices.objects.all()
 
+    '''
+    def get_edit_handler(self, instance, request):
+        custom_panels = [
+            FieldRowPanel([ReadOnlyPanel('doctor'), ReadOnlyPanel('patient'), ReadOnlyPanel('datetime')]),
+            InlinePanel('related_invoice', heading='Items', label='Detail Item',
+                        min_num=None, max_num=None),
+            FieldRowPanel([ReadOnlyPanel('is_final'), ReadOnlyPanel('is_cancel')]),
+        ]
+
+        return ObjectList(custom_panels)
+    '''
 
 modeladmin_register(InvoicesAdmin)

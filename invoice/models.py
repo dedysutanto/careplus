@@ -43,6 +43,8 @@ class Invoices(ClusterableModel):
     )
 
     is_final = models.BooleanField(_('Check and Correct'), default=False)
+    is_cancel = models.BooleanField(_('Cancel'), default=False)
+
     is_email = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
@@ -50,9 +52,8 @@ class Invoices(ClusterableModel):
 
     panels = [
         FieldRowPanel([FieldPanel('doctor'), FieldPanel('patient'), FieldPanel('datetime')]),
-        InlinePanel('related_invoice', heading='Items', label='Detail Item',
-                    min_num=None, max_num=None),
-        FieldPanel('is_final')
+        InlinePanel('related_invoice', heading='Items', label='Detail Item'),
+        FieldRowPanel([FieldPanel('is_final'), FieldPanel('is_cancel')]),
     ]
 
     class Meta:
@@ -81,12 +82,15 @@ class Invoices(ClusterableModel):
 
     def calculate_total(self):
         total = InvoiceItems.objects.filter(invoice=self).aggregate(Sum('sub_total'))
-        return total['sub_total__sum']
+        return 'Rp. {:,}'.format(total['sub_total__sum']).replace(',', '.')
     calculate_total.short_description = 'Total'
 
     def patient_number(self):
         return format_html('{}</br>{}', self.patient, self.patient.number)
     patient_number.short_description = _('Patient')
+
+    def get_edit_url(self):
+        return "/login/invoices/edit/%i/" % self.id
 
 
 class InvoiceItems(Orderable):
