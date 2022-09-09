@@ -16,7 +16,7 @@ $(document).ready(function() {
 
         $('#id_datetime').prop('disabled', true).prop('name', '');
         let elem_datetime = $('div').find('[data-contentpath="datetime"]');
-        let datetime_value = elem_datetime.value();
+        let datetime_value = elem_datetime.val();
         elem_datetime.append('<input id="id_datetime" type="hidden" name="datetime" value="' + datetime_value + '">');
 
 
