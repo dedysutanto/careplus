@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
+from account.models import User
 from crum import get_current_user
 from django.utils.translation import gettext_lazy as _
 from wagtail.admin.panels import FieldPanel, FieldRowPanel

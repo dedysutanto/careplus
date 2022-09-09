@@ -23,15 +23,20 @@
 					</div>
 					<div class="col-xs-6 col-sm-6 col-md-6 text-right">
 						<div class="receipt-right">
-							<h5>{{ invoice.doctor.name }}</h5>
-							{% if invoice.doctor.phone %}
-                            <p>{{ invoice.doctor.phone }} <i class="fa fa-phone"></i></p>
+							{% if invoice.user.membership.is_clinic %}
+                                <h5>{{ invoice.user.clinic_name }}</h5>
+                            {% else %}
+                                <h5>{{ invoice.user.first_name }} {{ invoice.user.last_name }}</h5>
                             {% endif %}
-                            {% if invoice.doctor.email %}
-							<p>{{ invoice.doctor.email }} <i class="fa fa-envelope-o"></i></p>
+
+                            {% if invoice.user.phone %}
+                                <p>{{ invoice.user.phone }} <i class="fa fa-phone"></i></p>
                             {% endif %}
-							{% if invoice.doctor.address %}
-                            <p>{{ invoice.doctor.address }} <i class="fa fa-location-arrow"></i></p>
+                            {% if invoice.user.email %}
+                                <p>{{ invoice.user.email }} <i class="fa fa-envelope-o"></i></p>
+                            {% endif %}
+                            {% if invoice.user.address %}
+                                <p>{{ invoice.user.address }} <i class="fa fa-location-arrow"></i></p>
                             {% endif %}
 						</div>
 					</div>
@@ -105,8 +110,9 @@
 						</div>
 					</div>
 					<div class="col-xs-4 col-sm-4 col-md-4">
-						<div class="receipt-left">
+						<div class="receipt-left text-right">
 							<h1>Doctor Signature</h1>
+                            <h5>{{ invoice.doctor.name }}</h5>
 						</div>
 					</div>
 				</div>

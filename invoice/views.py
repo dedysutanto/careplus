@@ -27,7 +27,17 @@ def print_invoice(request, invoice_number):
     invoice, context = get_invoice_context(invoice_number)
 
     if invoice.patient.email and not invoice.is_email:
-        subject = '[CarePlus] Invoice from {}'.format(invoice.doctor.name)
+        try:
+            invoice.user.membership.is_clinic
+            if invoice.user.membership.is_clinic:
+                name_text = invoice.user.clinic_name
+            else:
+                name_text = invoice.user.first_name + ' ' + invoice.user.last_name
+
+        except AttributeError:
+            pass
+
+        subject = '[CarePlus] Invoice from {}'.format(name_text)
         template = get_template('invoice/email_plain.html')
         content = template.render(context)
         msg = EmailMessage(

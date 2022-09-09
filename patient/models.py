@@ -1,6 +1,7 @@
 from django.db import models
 from doctor.models import Doctors
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
+from account.models import User
 from modelcluster.models import ClusterableModel
 from django.utils.translation import gettext_lazy as _
 from wagtail.models import Orderable

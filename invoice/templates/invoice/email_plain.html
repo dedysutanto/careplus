@@ -281,7 +281,11 @@ a {
                             <table width="100%" cellpadding="0" cellspacing="0">
                                 <tbody><tr>
                                     <td class="content-block">
-                                        <h2>{{ invoice.doctor.name }}</h2>
+                                        {% if invoice.user.membership.is_clinic %}
+                                            <h2>{{ invoice.user.clinic_name }}</h2>
+                                        {% else %}
+                                            <h2>{{ invoice.doctor.name }}</h2>
+                                        {% endif %}
                                     </td>
                                 </tr>
                                 <tr>

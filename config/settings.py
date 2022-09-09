@@ -27,6 +27,7 @@ ALLOWED_HOSTS = [str(os.getenv('ALLOWED_HOSTS'))]
 # Application definition
 
 INSTALLED_APPS = [
+    'account',
     'doctor',
     'patient',
     'invoice',
@@ -264,3 +265,14 @@ EMAIL_PORT = os.getenv(('EMAIL_PORT'))
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = str(os.getenv(('EMAIL_HOST_USER')))
 EMAIL_HOST_PASSWORD = str(os.getenv(('EMAIL_HOST_PASSWORD')))
+
+# Account
+AUTH_USER_MODEL = 'account.User'
+
+WAGTAIL_USER_EDIT_FORM = 'account.forms.CustomUserEditForm'
+WAGTAIL_USER_CREATION_FORM = 'account.forms.CustomUserCreationForm'
+WAGTAIL_USER_CUSTOM_FIELDS = ['phone', 'address', 'membership']
+
+
+WAGTAILADMIN_PERMITTED_LANGUAGES = []
+WAGTAIL_USER_TIME_ZONES = []

@@ -1,6 +1,7 @@
 from django.db import models
 from doctor.models import Doctors
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
+from account.models import User
 from patient.models import Patients, Soaps
 from modelcluster.models import ClusterableModel
 from wagtail.models import Orderable
@@ -24,6 +25,8 @@ class Invoices(ClusterableModel):
     patient = models.ForeignKey(
         Patients,
         on_delete=models.CASCADE,
+        limit_choices_to=limit_choices_to_current_user,
+
     )
     datetime = models.DateTimeField(_('Date Time'), default=now)
 
