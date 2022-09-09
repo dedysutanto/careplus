@@ -49,13 +49,12 @@ class AdditionalFieldsSettingsPanel(BaseSettingsPanel):
     form_object = 'user'
 
 
-'''
 class MemberStatusAdmin(ModelAdmin):
     model = MemberStatus
     base_url_path = 'memberstatus'  # customise the URL from default to admin/bookadmin
     menu_label = 'Membership'  # ditch this to use verbose_name_plural from model
-    menu_icon = 'user'  # change as required
-    menu_order = 100  # will put in 3rd place (000 being 1st, 100 2nd)
+    menu_icon = 'pick'  # change as required
+    menu_order = 10  # will put in 3rd place (000 being 1st, 100 2nd)
     add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
     exclude_from_explorer = False  # or True to exclude pages of this type from Wagtail's explorer view
     add_to_admin_menu = True  # or False to exclude your model from the menu
@@ -64,4 +63,3 @@ class MemberStatusAdmin(ModelAdmin):
 
 
 modeladmin_register(MemberStatusAdmin)
-'''
