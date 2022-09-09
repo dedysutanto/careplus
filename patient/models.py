@@ -269,7 +269,7 @@ class Soaps(Orderable):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
-    image = models.ImageField(upload_to='images', blank=True, null=True)
+    image = models.ImageField(upload_to='soap/images', blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
