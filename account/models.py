@@ -10,6 +10,8 @@ class MemberStatus(models.Model):
 
     class Meta:
         db_table = 'member_status'
+        verbose_name = 'Member Status'
+        verbose_name_plural = 'Member Status'
 
     def __str__(self):
         return '%s' % self.name
