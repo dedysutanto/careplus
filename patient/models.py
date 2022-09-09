@@ -269,6 +269,8 @@ class Soaps(Orderable):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
+    image = models.ImageField(upload_to='images', blank=True, null=True)
+
     created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
 
@@ -281,6 +283,7 @@ class Soaps(Orderable):
             FieldPanel('plan'),
         ], heading='SOAP'),
         FieldPanel('additional_info'),
+        FieldPanel('image'),
     ]
 
     class Meta:
