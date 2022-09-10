@@ -154,13 +154,11 @@ class Patients(ClusterableModel):
     panels = [
         InlinePanel('related_patient',
                     heading="Related SOAP",
-                    label="Detail SOAP",
-                    classname="collapsed"),
+                    label="Detail SOAP",),
 
         InlinePanel('next_appointment',
                     heading="Next Visit",
-                    label='Date Time',
-                    classname="collapsed",
+                    label='Appointment',
                     min_num=0, max_num=1),
         MultiFieldPanel([
             FieldRowPanel([FieldPanel('name'), FieldPanel('gender')]),

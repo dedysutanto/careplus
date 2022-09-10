@@ -26,7 +26,7 @@ def time_different(datetime):
     elif t_secs > 0:
         result_txt = 'Now'
     else:
-        result_txt= 'Expired'
+        result_txt = 'Expired'
 
     return result_txt
 

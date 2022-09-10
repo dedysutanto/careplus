@@ -134,7 +134,7 @@ class InvoicesAdmin(ModelAdmin):
     add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
     exclude_from_explorer = False  # or True to exclude pages of this type from Wagtail's explorer view
     add_to_admin_menu = True  # or False to exclude your model from the menu
-    list_display = ('number', 'doctor', 'patient_number', 'datetime', 'calculate_total', 'is_final', 'is_cancel')
+    list_display = ['number', 'doctor', 'patient_number', 'datetime', 'calculate_total', 'is_final', 'is_cancel']
     list_filter = ('doctor',)
     search_fields = ('number', 'doctor', 'patient__name', 'dob')
     ordering = ['-number']
@@ -149,6 +149,15 @@ class InvoicesAdmin(ModelAdmin):
             return Invoices.objects.filter(user=current_user)
         else:
             return Invoices.objects.all()
+
+    def get_list_display(self, request):
+        current_user = get_current_user()
+        doctor_list_display = ['number', 'patient_number', 'datetime', 'calculate_total', 'is_final', 'is_cancel']
+
+        if not current_user.membership.is_clinic:
+            return doctor_list_display
+        else:
+            return self.list_display
 
     '''
     def get_edit_handler(self, instance, request):

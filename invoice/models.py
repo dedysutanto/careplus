@@ -1,4 +1,6 @@
 from django.db import models
+from wagtail.admin.forms import WagtailAdminModelForm
+
 from doctor.models import Doctors
 #from django.contrib.auth.models import User
 from account.models import User
@@ -12,6 +14,26 @@ from crum import get_current_user
 from wagtail.admin.panels import FieldPanel, InlinePanel, FieldRowPanel
 from django.db.models import Sum
 from django.utils.html import format_html
+
+
+class InvoiceForm(WagtailAdminModelForm):
+
+    class Meta:
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        instance = kwargs.get('instance')
+        if not instance or not instance.pk:
+            initial = kwargs.get('initial', {})
+            print(initial)
+            user = get_current_user()
+            if not user.membership.is_clinic:
+                doctor = Doctors.objects.get(user=user)
+            initial.update({
+                'doctor': doctor
+            })
+            kwargs['initial'] = initial
+        super().__init__(*args, **kwargs)
 
 
 class Invoices(ClusterableModel):
@@ -58,6 +80,8 @@ class Invoices(ClusterableModel):
         InlinePanel('related_invoice', heading='Items', label='Detail Item'),
         FieldRowPanel([FieldPanel('is_final'), FieldPanel('is_cancel')]),
     ]
+
+    base_form_class = InvoiceForm
 
     class Meta:
         db_table = 'invoices'

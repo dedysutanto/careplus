@@ -90,10 +90,10 @@ class SoapsAdmin(ModelAdmin):
     add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
     exclude_from_explorer = False  # or True to exclude pages of this type from Wagtail's explorer view
     add_to_admin_menu = True  # or False to exclude your model from the menu
-    list_display = (
+    list_display = [
         'number', 'doctor', 'patient', 'datetime', 'subjective', 'objective',
         'assessment', 'plan', 'additional_info', 'image_thumb',
-    )
+    ]
     list_filter = ('doctor',)
     search_fields = [
         'number', 'doctor__name', 'patient__name',
@@ -109,6 +109,17 @@ class SoapsAdmin(ModelAdmin):
             return Soaps.objects.filter(user=current_user)
         else:
             return Soaps.objects.all()
+
+    def get_list_display(self, request):
+        current_user = get_current_user()
+        doctor_list_display = [
+            'number', 'patient', 'datetime', 'subjective', 'objective',
+            'assessment', 'plan', 'additional_info', 'image_thumb',
+        ]
+        if not current_user.membership.is_clinic:
+            return doctor_list_display
+        else:
+            return self.list_display
 
 
 class PatientsEditView(EditView):
@@ -128,7 +139,6 @@ class PatientsEditView(EditView):
 
             return '{} - Next Visit: {} ({})'.format(
                     name_text,
-                    calculate_age(self.instance.dob),
                     localtime(next_v.datetime).strftime("%A %d %b %Y, %H:%M"),
                     time_different(next_v.datetime)
             )
