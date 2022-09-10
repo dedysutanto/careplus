@@ -285,7 +285,7 @@ class Soaps(Orderable):
             FieldPanel('objective'),
             FieldPanel('assessment'),
             FieldPanel('plan'),
-        ], heading='SOAP'),
+        ], heading='SOAP', classname="collapsed"),
         FieldPanel('additional_info'),
         FieldPanel('image'),
     ]
