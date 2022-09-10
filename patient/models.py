@@ -1,6 +1,5 @@
 from django.db import models
 from doctor.models import Doctors
-#from django.contrib.auth.models import User
 from account.models import User
 from modelcluster.models import ClusterableModel
 from django.utils.translation import gettext_lazy as _
@@ -242,7 +241,7 @@ class Patients(ClusterableModel):
     next_visit.short_description = _('Next Visit')
 
 
-class Soaps(Orderable):
+class Soaps(Orderable, index.Indexed):
     def limit_choices_to_current_user():
         user = get_current_user()
         if not user.is_superuser:
@@ -306,6 +305,10 @@ class Soaps(Orderable):
             self.number = '{}{:03d}'.format(prefix, number)
             print('SOAP', self.number)
         return super(Soaps, self).save()
+
+    def get_patient_name(self):
+        patient = Patients.objects.get(patient=self.patient)
+        return patient.name
 
 
 class Teeth(models.Model):

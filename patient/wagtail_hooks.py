@@ -6,6 +6,7 @@ from config.utils import calculate_age
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.timezone import now, localtime
 from config.utils import time_different
+from wagtail.search import index
 
 
 class PatientsEditView(EditView):
@@ -117,7 +118,7 @@ class SoapsAdmin(ModelAdmin):
         'assessment', 'plan', 'additional_info', 'image',
     )
     list_filter = ('doctor',)
-    search_fields = ('number', 'doctor', 'patient',)
+    search_fields = ['number', 'doctor__name', 'patient__name']
     ordering = ['-number']
     permission_helper_class = SoapsPermissionHelper
     edit_view_class = SoapsEditView
