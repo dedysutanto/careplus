@@ -7,6 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.utils.timezone import now, localtime
 from config.utils import time_different
 from wagtail.search import index
+from wagtail.admin.panels import ObjectList
 
 
 class PatientsEditView(EditView):
@@ -89,7 +90,7 @@ class PatientsAdmin(ModelAdmin):
     add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
     exclude_from_explorer = False  # or True to exclude pages of this type from Wagtail's explorer view
     add_to_admin_menu = True  # or False to exclude your model from the menu
-    list_display = ('number', 'name', 'gender', 'dob', 'calculate_age', 'phone', 'address', 'next_visit')
+    list_display = ('number', 'name', 'gender', 'dob', 'calculate_age', 'phone', 'email', 'address', 'next_visit')
     search_fields = ('number', 'name', 'dob')
     permission_helper_class = PatientsPermissionHelper
     ordering = ['-number']
@@ -103,6 +104,14 @@ class PatientsAdmin(ModelAdmin):
         else:
             return Patients.objects.all()
 
+    '''
+    def get_edit_handler(self, instance=None, request=None):
+        print(Patients.panels)
+        print('INSTANCE', instance)
+        print('REQUEST', request)
+        return ObjectList(Patients.panels)
+    '''
+
 
 class SoapsAdmin(ModelAdmin):
     model = Soaps
@@ -115,7 +124,7 @@ class SoapsAdmin(ModelAdmin):
     add_to_admin_menu = True  # or False to exclude your model from the menu
     list_display = (
         'number', 'doctor', 'patient', 'datetime', 'subjective', 'objective',
-        'assessment', 'plan', 'additional_info', 'image',
+        'assessment', 'plan', 'additional_info', 'image_thumb',
     )
     list_filter = ('doctor',)
     search_fields = [

@@ -168,10 +168,15 @@ class Patients(ClusterableModel):
                         min_num=0, max_num=1),
         ], heading='Lower Teeth Condition', classname="collapsed"),
 
-        InlinePanel('related_patient', heading="Related SOAP", label='Detail SOAP',
+        InlinePanel('related_patient',
+                    heading="Related SOAP",
+                    label="Detail SOAP",
                     classname="collapsed"),
 
-        InlinePanel('next_appointment', heading="Next Visit", label='Date Time',
+        InlinePanel('next_appointment',
+                    heading="Next Visit",
+                    label='Date Time',
+                    classname="collapsed",
                     min_num=0, max_num=1),
 
     ]
@@ -231,10 +236,10 @@ class Patients(ClusterableModel):
         try:
             next_v = NextAppointment.objects.get(patient=self)
             from datetime import datetime
-            return '{} ({})'.format(
-                localtime(next_v.datetime).strftime("%A %d %b %Y, %H:%M"),
-                time_different(next_v.datetime)
-            )
+            return format_html('{}<br />( {} )',
+                               localtime(next_v.datetime).strftime("%A %d %b %Y, %H:%M"),
+                               time_different(next_v.datetime)
+                               )
 
         except ObjectDoesNotExist:
             return '%s' % _('No appointment')
@@ -285,7 +290,7 @@ class Soaps(Orderable):
             FieldPanel('objective'),
             FieldPanel('assessment'),
             FieldPanel('plan'),
-        ], heading='SOAP', classname="collapsed"),
+        ], heading='SOAP'),
         FieldPanel('additional_info'),
         FieldPanel('image'),
     ]
@@ -308,10 +313,10 @@ class Soaps(Orderable):
         return super(Soaps, self).save()
 
     def image_thumb(self):
-        patient = Patients.objects.get(patient=self.patient)
         return format_html(
-            '<a href="{}"><img src="{}" width=100, height=100>'
+            '<a href="{}"><img src="{}" width=80, height=80>', self.image.url, self.image.url
         )
+    image_thumb.short_description = _('Image')
 
 
 class Teeth(models.Model):
