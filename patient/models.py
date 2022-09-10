@@ -313,10 +313,16 @@ class Soaps(Orderable):
         return super(Soaps, self).save()
 
     def image_thumb(self):
-        if self.image is not None:
-            return format_html(
-                '<a href="{}"><img src="{}" width=80, height=80>', self.image.url, self.image.url
-            )
+        try:
+            self.image.url
+            if self.image is not None:
+                return format_html(
+                    '<a href="{}"><img src="{}" width=80, height=80>', self.image.url, self.image.url
+                )
+            else:
+                return None
+        except ValueError:
+            return None
     image_thumb.short_description = _('Image')
 
 
