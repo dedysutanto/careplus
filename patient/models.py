@@ -6,12 +6,13 @@ from modelcluster.models import ClusterableModel
 from django.utils.translation import gettext_lazy as _
 from wagtail.models import Orderable
 from modelcluster.fields import ParentalKey
-from django.utils.timezone import now
+from django.utils.timezone import now, localtime
 from wagtail.admin.panels import FieldPanel, InlinePanel, FieldRowPanel, MultiFieldPanel, HelpPanel
 from crum import get_current_user
 from wagtail.admin import widgets
 from config.utils import calculate_age
 from django.core.exceptions import ObjectDoesNotExist
+from config.utils import time_different
 
 
 SOAP = """S:
@@ -230,7 +231,10 @@ class Patients(ClusterableModel):
         try:
             next_v = NextAppointment.objects.get(patient=self)
             from datetime import datetime
-            return '%s' % next_v.datetime.strftime("%A %d %b %Y, %H:%M")
+            return '{} ({})'.format(
+                localtime(next_v.datetime).strftime("%A %d %b %Y, %H:%M"),
+                time_different(next_v.datetime)
+            )
 
         except ObjectDoesNotExist:
             return '%s' % _('No appointment')
