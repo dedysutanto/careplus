@@ -1,5 +1,5 @@
 from wagtail.contrib.modeladmin.options import (
-    ModelAdmin, modeladmin_register, PermissionHelper, EditView)
+    ModelAdmin, modeladmin_register, PermissionHelper, EditView, CreateView)
 from .models import Patients, Soaps, NextAppointment
 from crum import get_current_user
 from config.utils import calculate_age
@@ -8,27 +8,24 @@ from django.utils.timezone import now, localtime
 from config.utils import time_different
 from wagtail.search import index
 from wagtail.admin.panels import ObjectList
+from doctor.models import Doctors
 
 
-class PatientsEditView(EditView):
-    page_title = 'Editing'
+class SoapsCreateView(CreateView):
 
-    def get_page_title(self):
-        return 'Patient'
+    def get_context_data(self, form=None, **kwargs):
+        context = super().get_context_data()
+        print(context)
+        return context
 
-    def get_page_subtitle(self):
-        try:
-            next_v = NextAppointment.objects.get(patient=self.instance)
-
-            return '{} ({}) - Next Visit: {} ({})'.format(
-                    self.instance,
-                    calculate_age(self.instance.dob),
-                    localtime(next_v.datetime).strftime("%A %d %b %Y, %H:%M"),
-                    time_different(next_v.datetime)
-            )
-
-        except ObjectDoesNotExist:
-            return '%s (%d)' % (self.instance, calculate_age(self.instance.dob))
+    def get_instance(self):
+        instance = super().get_instance()
+        user = get_current_user()
+        if not user.membership.is_clinic:
+            doctor = Doctors.objects.get(user=user)
+            instance.doctor = doctor
+        return instance
+        #return getattr(self, "instance", None) or self.model()
 
 
 class SoapsEditView(EditView):
@@ -81,38 +78,6 @@ class SoapsPermissionHelper(PermissionHelper):
             return True
 
 
-class PatientsAdmin(ModelAdmin):
-    model = Patients
-    base_url_path = 'patients'  # customise the URL from default to admin/bookadmin
-    menu_label = 'Patient'  # ditch this to use verbose_name_plural from model
-    menu_icon = 'group'  # change as required
-    menu_order = 50  # will put in 3rd place (000 being 1st, 100 2nd)
-    add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
-    exclude_from_explorer = False  # or True to exclude pages of this type from Wagtail's explorer view
-    add_to_admin_menu = True  # or False to exclude your model from the menu
-    list_display = ('number', 'name', 'gender', 'dob', 'calculate_age', 'phone', 'email', 'address', 'next_visit')
-    search_fields = ('number', 'name', 'dob')
-    permission_helper_class = PatientsPermissionHelper
-    ordering = ['-number']
-    #edit_template_name = 'patient/edit.html'
-    edit_view_class = PatientsEditView
-
-    def get_queryset(self, request):
-        current_user = get_current_user()
-        if not current_user.is_superuser:
-            return Patients.objects.filter(user=current_user)
-        else:
-            return Patients.objects.all()
-
-    '''
-    def get_edit_handler(self, instance=None, request=None):
-        print(Patients.panels)
-        print('INSTANCE', instance)
-        print('REQUEST', request)
-        return ObjectList(Patients.panels)
-    '''
-
-
 class SoapsAdmin(ModelAdmin):
     model = Soaps
     base_url_path = 'soaps'  # customise the URL from default to admin/bookadmin
@@ -133,6 +98,7 @@ class SoapsAdmin(ModelAdmin):
     ordering = ['-number']
     permission_helper_class = SoapsPermissionHelper
     edit_view_class = SoapsEditView
+    create_view_class = SoapsCreateView
 
     def get_queryset(self, request):
         current_user = get_current_user()
@@ -140,6 +106,86 @@ class SoapsAdmin(ModelAdmin):
             return Soaps.objects.filter(user=current_user)
         else:
             return Soaps.objects.all()
+
+
+class PatientsEditView(EditView):
+    page_title = 'Editing'
+
+    def get_page_title(self):
+        return 'Patient'
+
+    def get_page_subtitle(self):
+        try:
+            next_v = NextAppointment.objects.get(patient=self.instance)
+
+            return '{} ({}) - Next Visit: {} ({})'.format(
+                    self.instance,
+                    calculate_age(self.instance.dob),
+                    localtime(next_v.datetime).strftime("%A %d %b %Y, %H:%M"),
+                    time_different(next_v.datetime)
+            )
+
+        except ObjectDoesNotExist:
+            return '%s (%d)' % (self.instance, calculate_age(self.instance.dob))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        instance = context['instance']
+        try:
+            soap = Soaps.objects.filter(patient=instance).order_by('datetime').last()
+            context['soap'] = soap
+        except ObjectDoesNotExist:
+            context['soap'] = None
+
+        context['add_soap'] = SoapsAdmin().url_helper.get_action_url('create')
+        name_txt = str(instance.name).replace(' ', '+')
+        context['list_soap'] = SoapsAdmin().url_helper.get_action_url('index') + '?q=' + name_txt
+        return context
+
+
+class PatientCreateView(CreateView):
+
+    def get_instance(self):
+        instance = super().get_instance()
+        user = get_current_user()
+        if not user.membership.is_clinic:
+            doctor = Doctors.objects.get(user=user)
+            instance.doctor = doctor
+        return instance
+        #return getattr(self, "instance", None) or self.model()
+
+
+class PatientsAdmin(ModelAdmin):
+    model = Patients
+    base_url_path = 'patients'  # customise the URL from default to admin/bookadmin
+    menu_label = 'Patient'  # ditch this to use verbose_name_plural from model
+    menu_icon = 'group'  # change as required
+    menu_order = 50  # will put in 3rd place (000 being 1st, 100 2nd)
+    add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
+    exclude_from_explorer = False  # or True to exclude pages of this type from Wagtail's explorer view
+    add_to_admin_menu = True  # or False to exclude your model from the menu
+    list_display = ('number', 'name', 'gender', 'dob', 'calculate_age', 'phone', 'email', 'address', 'next_visit')
+    search_fields = ('number', 'name', 'dob')
+    permission_helper_class = PatientsPermissionHelper
+    ordering = ['-number']
+    #edit_template_name = 'patient/edit.html'
+    edit_view_class = PatientsEditView
+    #create_view_class = PatientCreateView
+
+    def get_queryset(self, request):
+        current_user = get_current_user()
+        if not current_user.is_superuser:
+            return Patients.objects.filter(user=current_user)
+        else:
+            return Patients.objects.all()
+
+    '''
+    def get_edit_handler(self, instance=None, request=None):
+        print(Patients.panels)
+        print('INSTANCE', instance)
+        print('REQUEST', request)
+        return ObjectList(Patients.panels)
+    '''
 
 
 modeladmin_register(PatientsAdmin)

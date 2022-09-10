@@ -1,4 +1,5 @@
 from django.db import models
+from wagtail.admin.forms import WagtailAdminModelForm
 from doctor.models import Doctors
 from account.models import User
 from modelcluster.models import ClusterableModel
@@ -110,6 +111,26 @@ teeth_left_panels = [
 ]
 
 
+class SoapForm(WagtailAdminModelForm):
+
+    class Meta:
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        instance = kwargs.get('instance')
+        if not instance or not instance.pk:
+            initial = kwargs.get('initial', {})
+            print(initial)
+            user = get_current_user()
+            if not user.membership.is_clinic:
+                doctor = Doctors.objects.get(user=user)
+            initial.update({
+                'doctor': doctor
+            })
+            kwargs['initial'] = initial
+        super().__init__(*args, **kwargs)
+
+
 class Patients(ClusterableModel):
     number = models.CharField(_('ID'), max_length=16, unique=True)
     name = models.CharField(max_length=100, verbose_name=_('Name'))
@@ -131,6 +152,16 @@ class Patients(ClusterableModel):
     )
 
     panels = [
+        InlinePanel('related_patient',
+                    heading="Related SOAP",
+                    label="Detail SOAP",
+                    classname="collapsed"),
+
+        InlinePanel('next_appointment',
+                    heading="Next Visit",
+                    label='Date Time',
+                    classname="collapsed",
+                    min_num=0, max_num=1),
         MultiFieldPanel([
             FieldRowPanel([FieldPanel('name'), FieldPanel('gender')]),
             FieldPanel('dob', widget=date_widget),
@@ -167,17 +198,6 @@ class Patients(ClusterableModel):
                         classname="collapsed",
                         min_num=0, max_num=1),
         ], heading='Lower Teeth Condition', classname="collapsed"),
-
-        InlinePanel('related_patient',
-                    heading="Related SOAP",
-                    label="Detail SOAP",
-                    classname="collapsed"),
-
-        InlinePanel('next_appointment',
-                    heading="Next Visit",
-                    label='Date Time',
-                    classname="collapsed",
-                    min_num=0, max_num=1),
 
     ]
 
@@ -282,6 +302,8 @@ class Soaps(Orderable):
 
     created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    base_form_class = SoapForm
 
     panels = [
         FieldRowPanel([FieldPanel('doctor'), FieldPanel('patient'), FieldPanel('datetime')]),
