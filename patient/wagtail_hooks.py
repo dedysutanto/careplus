@@ -117,7 +117,7 @@ class SoapsAdmin(ModelAdmin):
         'assessment', 'plan', 'additional_info', 'image',
     )
     list_filter = ('doctor',)
-    search_fields = ('number', 'doctor', 'patient__name',)
+    search_fields = ('number', 'doctor', 'patient',)
     ordering = ['-number']
     permission_helper_class = SoapsPermissionHelper
     edit_view_class = SoapsEditView
