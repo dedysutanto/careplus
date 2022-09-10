@@ -15,7 +15,6 @@ class SoapsCreateView(CreateView):
 
     def get_context_data(self, form=None, **kwargs):
         context = super().get_context_data()
-        print(context)
         return context
 
     def get_instance(self):
@@ -35,7 +34,11 @@ class SoapsEditView(EditView):
         return 'SOAP'
 
     def get_page_subtitle(self):
-        return '%s (%d)' % (self.instance.patient.name, calculate_age(self.instance.patient.dob))
+        return '{} ({}/{})'.format(
+            self.instance.patient.name,
+            self.instance.patient.gender,
+            calculate_age(self.instance.patient.dob)
+        )
 
 
 class PatientsPermissionHelper(PermissionHelper):
@@ -115,18 +118,23 @@ class PatientsEditView(EditView):
         return 'Patient'
 
     def get_page_subtitle(self):
+        name_text = '{} ({}/{})'.format(
+            self.instance,
+            self.instance.gender,
+            calculate_age(self.instance.dob)
+        )
         try:
             next_v = NextAppointment.objects.get(patient=self.instance)
 
-            return '{} ({}) - Next Visit: {} ({})'.format(
-                    self.instance,
+            return '{} - Next Visit: {} ({})'.format(
+                    name_text,
                     calculate_age(self.instance.dob),
                     localtime(next_v.datetime).strftime("%A %d %b %Y, %H:%M"),
                     time_different(next_v.datetime)
             )
 
         except ObjectDoesNotExist:
-            return '%s (%d)' % (self.instance, calculate_age(self.instance.dob))
+            return '%s' % name_text
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
@@ -168,7 +176,7 @@ class PatientsAdmin(ModelAdmin):
     search_fields = ('number', 'name', 'dob')
     permission_helper_class = PatientsPermissionHelper
     ordering = ['-number']
-    #edit_template_name = 'patient/edit.html'
+    edit_template_name = 'modeladmin/edit_patient.html'
     edit_view_class = PatientsEditView
     #create_view_class = PatientCreateView
 
