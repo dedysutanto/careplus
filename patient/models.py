@@ -12,6 +12,7 @@ from wagtail.admin import widgets
 from config.utils import calculate_age
 from django.core.exceptions import ObjectDoesNotExist
 from config.utils import time_different
+from django.utils.html import format_html
 
 
 SOAP = """S:
@@ -241,7 +242,7 @@ class Patients(ClusterableModel):
     next_visit.short_description = _('Next Visit')
 
 
-class Soaps(Orderable, index.Indexed):
+class Soaps(Orderable):
     def limit_choices_to_current_user():
         user = get_current_user()
         if not user.is_superuser:
@@ -306,9 +307,11 @@ class Soaps(Orderable, index.Indexed):
             print('SOAP', self.number)
         return super(Soaps, self).save()
 
-    def get_patient_name(self):
+    def image_thumb(self):
         patient = Patients.objects.get(patient=self.patient)
-        return patient.name
+        return format_html(
+            '<a href="{}"><img src="{}" width=100, height=100>'
+        )
 
 
 class Teeth(models.Model):
