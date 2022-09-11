@@ -148,6 +148,7 @@ class PatientsEditView(EditView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
+        print(context['instance'])
         instance = context['instance']
         try:
             soap = Soaps.objects.filter(patient=instance).order_by('datetime').last()
@@ -197,13 +198,22 @@ class PatientsAdmin(ModelAdmin):
         else:
             return Patients.objects.all()
 
-    '''
     def get_edit_handler(self, instance=None, request=None):
         print(Patients.panels)
-        print('INSTANCE', instance)
-        print('REQUEST', request)
+        '''
+        custom_panels = []
+        for pan in Patients.panels:
+            try:
+                print(pan.heading)
+                print(pan.classname)
+                if pan.heading == 'Data Patient':
+                    pan.classname = 'collapsed'
+            except ValueError:
+                pass
+            custom_panels += [pan]
+        '''
         return ObjectList(Patients.panels)
-    '''
+        #return ObjectList(custom_panels)
 
 
 modeladmin_register(PatientsAdmin)

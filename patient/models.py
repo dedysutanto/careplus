@@ -14,6 +14,7 @@ from config.utils import calculate_age
 from django.core.exceptions import ObjectDoesNotExist
 from config.utils import time_different
 from django.utils.html import format_html
+#from invoice.models import Invoices
 
 
 SOAP = """S:
@@ -151,15 +152,22 @@ class Patients(ClusterableModel):
         }
     )
 
+    total = 0
+
     panels = [
         InlinePanel('related_patient',
                     heading="Related SOAP",
                     label="Detail SOAP",),
 
         InlinePanel('next_appointment',
-                    heading="Next Visit",
+                    heading='Next Visit',
                     label='Appointment',
+                    classname='collapsed',
                     min_num=0, max_num=1),
+        InlinePanel('related_invoice_patient',
+                    heading='Invoices',
+                    label='Invoice',
+                    classname='collapsed',),
         MultiFieldPanel([
             FieldRowPanel([FieldPanel('name'), FieldPanel('gender')]),
             FieldPanel('dob', widget=date_widget),

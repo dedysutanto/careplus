@@ -1,6 +1,7 @@
 # CarePlus
 
 ## Todo
+    - If no SOAP, disable add invoice (raise validation)
 
 ### Account
     For Features

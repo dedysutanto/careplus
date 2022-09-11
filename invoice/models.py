@@ -36,7 +36,7 @@ class InvoiceForm(WagtailAdminModelForm):
         super().__init__(*args, **kwargs)
 
 
-class Invoices(ClusterableModel):
+class Invoices(ClusterableModel, Orderable):
     def limit_choices_to_current_user():
         user = get_current_user()
         if not user.is_superuser:
@@ -44,10 +44,12 @@ class Invoices(ClusterableModel):
         else:
             return {}
     number = models.CharField(_('ID'), max_length=16, unique=True)
-    patient = models.ForeignKey(
+    #patient = models.ForeignKey(
+    patient = ParentalKey(
         Patients,
         on_delete=models.CASCADE,
         limit_choices_to=limit_choices_to_current_user,
+        related_name='related_invoice_patient'
 
     )
     datetime = models.DateTimeField(_('Date Time'), default=now)
