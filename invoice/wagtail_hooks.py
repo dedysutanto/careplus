@@ -171,4 +171,5 @@ class InvoicesAdmin(ModelAdmin):
         return ObjectList(custom_panels)
     '''
 
+
 modeladmin_register(InvoicesAdmin)

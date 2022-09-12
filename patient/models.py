@@ -14,7 +14,6 @@ from config.utils import calculate_age
 from django.core.exceptions import ObjectDoesNotExist
 from config.utils import time_different
 from django.utils.html import format_html
-#from invoice.models import Invoices
 
 
 SOAP = """S:
@@ -132,6 +131,40 @@ class SoapForm(WagtailAdminModelForm):
         super().__init__(*args, **kwargs)
 
 
+class PatientForm(WagtailAdminModelForm):
+
+    class Meta:
+        fields = '__all__'
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        #loop over linked orderables
+        #print(self.formsets)
+        #print(self.formsets['related_invoice_patient'].forms)
+        for form in self.formsets['related_invoice_patient'].forms:
+
+            #check first if form is valid, otherwise cleaned_data will not be accesible/set
+
+
+            if form.is_valid():
+                cleaned_form_data = form.clean()
+                #patient = cleaned_form_data.get('patient')
+                doctor = cleaned_form_data.get('doctor')
+                soap = cleaned_form_data.get('soap')
+
+                #print('PATIENT', patient)
+                print('DOCTOR', doctor)
+                print('SOAP', soap)
+
+                #execute some validation condition, and raise the error if it fails
+                if soap is None:
+                    form.add_error('doctor', 'please dont leave me empty')
+            #else:
+            #    form.add_error('please dont leave me empty')
+        return cleaned_data
+
+
 class Patients(ClusterableModel):
     number = models.CharField(_('ID'), max_length=16, unique=True)
     name = models.CharField(max_length=100, verbose_name=_('Name'))
@@ -152,7 +185,7 @@ class Patients(ClusterableModel):
         }
     )
 
-    total = 0
+    #base_form_class = PatientForm
 
     panels = [
         InlinePanel('related_patient',

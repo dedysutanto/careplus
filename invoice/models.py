@@ -1,8 +1,7 @@
 from django.db import models
 from wagtail.admin.forms import WagtailAdminModelForm
-
+from django.core.exceptions import ValidationError
 from doctor.models import Doctors
-#from django.contrib.auth.models import User
 from account.models import User
 from patient.models import Patients, Soaps
 from modelcluster.models import ClusterableModel
@@ -35,6 +34,22 @@ class InvoiceForm(WagtailAdminModelForm):
             kwargs['initial'] = initial
         super().__init__(*args, **kwargs)
 
+    '''
+    def clean(self):
+        cleaned_data = super().clean()
+
+        print(self.formsets)
+
+        for form in self.formsets['related_invoice'].forms:
+
+            print(form)
+
+            if form.is_valid():
+                cleaned_form_data = form.clean()
+
+        return cleaned_data
+    '''
+
 
 class Invoices(ClusterableModel, Orderable):
     def limit_choices_to_current_user():
@@ -44,7 +59,7 @@ class Invoices(ClusterableModel, Orderable):
         else:
             return {}
     number = models.CharField(_('ID'), max_length=16, unique=True)
-    #patient = models.ForeignKey(
+
     patient = ParentalKey(
         Patients,
         on_delete=models.CASCADE,
@@ -90,6 +105,16 @@ class Invoices(ClusterableModel, Orderable):
         verbose_name = 'invoice'
         verbose_name_plural = 'invoices'
 
+    '''
+    def clean(self):
+        if self.soap is None:
+            self.soap = Soaps.objects.filter(
+                doctor=self.doctor, patient=self.patient).order_by('datetime', 'number').last()
+
+            if self.soap is None:
+                raise ValidationError('Patient is not diagnosed. Please create SOAP for patient')
+    '''
+
     def save(self):
         if self.user is None:
             self.user = get_current_user()
@@ -108,6 +133,15 @@ class Invoices(ClusterableModel, Orderable):
                 doctor=self.doctor, patient=self.patient).order_by('datetime', 'number').last()
 
         return super(Invoices, self).save()
+
+    def clean(self):
+        if self.soap is None:
+            soap = Soaps.objects.filter(
+                doctor=self.doctor, patient=self.patient).order_by('datetime', 'number').last()
+
+            if soap is None:
+                raise ValidationError('No SOAP for the patient. Please create SOAP first.')
+
 
     def calculate_total(self):
         total = InvoiceItems.objects.filter(invoice=self).aggregate(Sum('sub_total'))

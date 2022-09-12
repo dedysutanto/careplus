@@ -9,6 +9,8 @@ from config.utils import time_different
 from wagtail.search import index
 from wagtail.admin.panels import ObjectList
 from doctor.models import Doctors
+from wagtail.admin.panels import FieldPanel, InlinePanel, FieldRowPanel, MultiFieldPanel, HelpPanel
+from wagtail.admin import widgets
 
 
 class SoapsCreateView(CreateView):
@@ -148,7 +150,6 @@ class PatientsEditView(EditView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        print(context['instance'])
         instance = context['instance']
         try:
             soap = Soaps.objects.filter(patient=instance).order_by('datetime').last()
@@ -161,8 +162,29 @@ class PatientsEditView(EditView):
         context['list_soap'] = SoapsAdmin().url_helper.get_action_url('index') + '?q=' + name_txt
         return context
 
+    def get_edit_handler(self):
+        instance = super().get_instance()
+        panels = Patients.panels
+        if Soaps.objects.filter(patient=instance).count() == 0:
+            panels = [panel for panel in Patients.panels if panel.heading != 'Invoices']
+
+        panels = ObjectList(panels)
+
+        return panels.bind_to_model(Patients)
+
 
 class PatientCreateView(CreateView):
+
+    def get_edit_handler(self):
+        instance = super().get_instance()
+        panels = Patients.panels
+
+        if Soaps.objects.filter(patient=instance).count() == 0:
+            panels = [panel for panel in Patients.panels if panel.heading != 'Invoices']
+
+        panels = ObjectList(panels)
+
+        return panels.bind_to_model(Patients)
 
     def get_instance(self):
         instance = super().get_instance()
@@ -171,7 +193,14 @@ class PatientCreateView(CreateView):
             doctor = Doctors.objects.get(user=user)
             instance.doctor = doctor
         return instance
-        #return getattr(self, "instance", None) or self.model()
+
+    '''
+    def bind_to_model(self, model):
+        new = self.clone()
+        new.model = Patients
+        new.on_model_bound()
+        return new
+    '''
 
 
 class PatientsAdmin(ModelAdmin):
@@ -189,7 +218,8 @@ class PatientsAdmin(ModelAdmin):
     ordering = ['-number']
     edit_template_name = 'modeladmin/edit_patient.html'
     edit_view_class = PatientsEditView
-    #create_view_class = PatientCreateView
+    create_view_class = PatientCreateView
+    form_view_extra_js = ['patient/js/patient_invoice.js']
 
     def get_queryset(self, request):
         current_user = get_current_user()
@@ -199,7 +229,7 @@ class PatientsAdmin(ModelAdmin):
             return Patients.objects.all()
 
     def get_edit_handler(self, instance=None, request=None):
-        print(Patients.panels)
+        #print(Patients.panels)
         '''
         custom_panels = []
         for pan in Patients.panels:
