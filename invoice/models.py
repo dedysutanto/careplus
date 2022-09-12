@@ -142,7 +142,6 @@ class Invoices(ClusterableModel, Orderable):
             if soap is None:
                 raise ValidationError('No SOAP for the patient. Please create SOAP first.')
 
-
     def calculate_total(self):
         total = InvoiceItems.objects.filter(invoice=self).aggregate(Sum('sub_total'))
         return 'Rp. {:,}'.format(total['sub_total__sum']).replace(',', '.')

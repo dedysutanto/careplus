@@ -22,10 +22,10 @@
         {% if soap %}
         <span><strong>Last Visit:</strong> {{ soap.datetime }}</span>
         <br />
-        <span><strong>Subjective:</strong> {{ soap.subjective }}</span>
-        <span><strong>Objective:</strong>{{ soap.objective }}</span>
-        <span><strong>Assessment:</strong>{{ soap.assessment }}</span>
-        <span><strong>Plan:</strong>{{ soap.plan }}</span>
+        <span><strong>Subjective:</strong> {{ soap.subjective }}; </span>
+        <span><strong>Objective:</strong> {{ soap.objective }}; </span>
+        <span><strong>Assessment:</strong> {{ soap.assessment }}; </span>
+        <span><strong>Plan:</strong> {{ soap.plan }}</span>
         {% else %}
         <span><strong></strong></span>
         {% endif %}
