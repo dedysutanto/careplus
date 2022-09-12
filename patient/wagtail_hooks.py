@@ -42,6 +42,9 @@ class SoapsEditView(EditView):
             calculate_age(self.instance.patient.dob)
         )
 
+    def get_success_url(self):
+        return self.edit_url
+
 
 class PatientsPermissionHelper(PermissionHelper):
     def user_can_list(self, user):
@@ -171,6 +174,9 @@ class PatientsEditView(EditView):
         panels = ObjectList(panels)
 
         return panels.bind_to_model(Patients)
+
+    def get_success_url(self):
+        return self.edit_url
 
 
 class PatientCreateView(CreateView):
