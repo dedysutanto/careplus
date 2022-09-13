@@ -1,0 +1,412 @@
+[
+{
+    "model": "data_support.bpjscodes",
+    "pk": 1,
+    "fields": {
+        "code": "23.19",
+        "description": "Other Surgical Extraction of Tooth",
+        "created_at": "2022-09-12T14:56:33.079Z",
+        "updated_at": "2022-09-12T14:56:33.079Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 2,
+    "fields": {
+        "code": "23.2",
+        "description": "Tambal Gigi",
+        "created_at": "2022-09-12T14:56:45.328Z",
+        "updated_at": "2022-09-12T14:56:45.328Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 3,
+    "fields": {
+        "code": "23.09",
+        "description": "Cabut Gigit",
+        "created_at": "2022-09-12T14:56:57.507Z",
+        "updated_at": "2022-09-12T14:56:57.507Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 4,
+    "fields": {
+        "code": "23.09",
+        "description": "Other Dental Restorasi",
+        "created_at": "2022-09-12T14:57:15.824Z",
+        "updated_at": "2022-09-12T14:57:15.824Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 5,
+    "fields": {
+        "code": "23.11",
+        "description": "Removal of Residual Root",
+        "created_at": "2022-09-12T14:57:30.217Z",
+        "updated_at": "2022-09-12T14:57:30.217Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 6,
+    "fields": {
+        "code": "K01.0",
+        "description": "Embedded Teeth",
+        "created_at": "2022-09-13T00:23:36.364Z",
+        "updated_at": "2022-09-13T00:23:36.364Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 7,
+    "fields": {
+        "code": "K01.1",
+        "description": "Impacted Teeth",
+        "created_at": "2022-09-13T00:23:53.381Z",
+        "updated_at": "2022-09-13T00:23:53.381Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 8,
+    "fields": {
+        "code": "K02.0",
+        "description": "Carries Limited to Enamel",
+        "created_at": "2022-09-13T00:24:14.802Z",
+        "updated_at": "2022-09-13T00:24:14.802Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 9,
+    "fields": {
+        "code": "K02.1",
+        "description": "Carries of Dentine",
+        "created_at": "2022-09-13T00:24:32.046Z",
+        "updated_at": "2022-09-13T00:24:32.046Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 10,
+    "fields": {
+        "code": "K02.2",
+        "description": "Carries of Cementum",
+        "created_at": "2022-09-13T00:24:51.650Z",
+        "updated_at": "2022-09-13T00:24:51.650Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 11,
+    "fields": {
+        "code": "K02.3",
+        "description": "Arrested Dental Carries",
+        "created_at": "2022-09-13T00:25:07.278Z",
+        "updated_at": "2022-09-13T00:25:07.278Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 12,
+    "fields": {
+        "code": "K02.4",
+        "description": "Odontoclasia",
+        "created_at": "2022-09-13T00:25:27.841Z",
+        "updated_at": "2022-09-13T00:25:27.841Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 13,
+    "fields": {
+        "code": "K02.8",
+        "description": "Other Dental Carries",
+        "created_at": "2022-09-13T00:25:40.305Z",
+        "updated_at": "2022-09-13T00:25:40.305Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 14,
+    "fields": {
+        "code": "K02.9",
+        "description": "Dental Carries, Unspecified",
+        "created_at": "2022-09-13T00:25:55.937Z",
+        "updated_at": "2022-09-13T00:25:55.937Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 15,
+    "fields": {
+        "code": "K03.0",
+        "description": "Excessive Attrition of Teeth",
+        "created_at": "2022-09-13T00:26:19.342Z",
+        "updated_at": "2022-09-13T00:26:19.342Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 16,
+    "fields": {
+        "code": "K03.1",
+        "description": "Abrasion of Teeth",
+        "created_at": "2022-09-13T00:26:35.728Z",
+        "updated_at": "2022-09-13T00:26:35.728Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 17,
+    "fields": {
+        "code": "K03.2",
+        "description": "Erosion of Teeth",
+        "created_at": "2022-09-13T00:26:48.475Z",
+        "updated_at": "2022-09-13T00:26:48.475Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 18,
+    "fields": {
+        "code": "K03.3",
+        "description": "Pathological Resorption of Teeth",
+        "created_at": "2022-09-13T00:27:11.341Z",
+        "updated_at": "2022-09-13T00:27:11.341Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 19,
+    "fields": {
+        "code": "K03.4",
+        "description": "Hypercementosis",
+        "created_at": "2022-09-13T00:27:28.340Z",
+        "updated_at": "2022-09-13T00:27:28.340Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 20,
+    "fields": {
+        "code": "K03.5",
+        "description": "Ankylosis of Teeth",
+        "created_at": "2022-09-13T00:27:51.098Z",
+        "updated_at": "2022-09-13T00:27:51.098Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 21,
+    "fields": {
+        "code": "K03.6",
+        "description": "Deposits [Accretions] of Teeth",
+        "created_at": "2022-09-13T00:28:17.149Z",
+        "updated_at": "2022-09-13T00:28:17.149Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 22,
+    "fields": {
+        "code": "K03.7",
+        "description": "Posteruptive Colour Changes of Dental Hard Tissues",
+        "created_at": "2022-09-13T00:28:46.209Z",
+        "updated_at": "2022-09-13T00:28:46.209Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 23,
+    "fields": {
+        "code": "K03.8",
+        "description": "Other specified dieseases of hard tissues of teeth",
+        "created_at": "2022-09-13T00:29:14.880Z",
+        "updated_at": "2022-09-13T00:29:14.880Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 24,
+    "fields": {
+        "code": "K03.9",
+        "description": "Disease of hard tissue of teeth, unspecified",
+        "created_at": "2022-09-13T00:29:41.675Z",
+        "updated_at": "2022-09-13T00:29:41.675Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 25,
+    "fields": {
+        "code": "K04.0",
+        "description": "Pulpitis",
+        "created_at": "2022-09-13T00:30:05.818Z",
+        "updated_at": "2022-09-13T00:30:05.818Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 26,
+    "fields": {
+        "code": "K04.1",
+        "description": "Necrosis of Pulp",
+        "created_at": "2022-09-13T00:30:17.812Z",
+        "updated_at": "2022-09-13T00:30:17.812Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 27,
+    "fields": {
+        "code": "K04.2",
+        "description": "Pulp Degeneration",
+        "created_at": "2022-09-13T00:30:30.724Z",
+        "updated_at": "2022-09-13T00:30:30.724Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 28,
+    "fields": {
+        "code": "K04.3",
+        "description": "Abnormal hard tissue formation in pulp",
+        "created_at": "2022-09-13T00:30:48.961Z",
+        "updated_at": "2022-09-13T00:30:48.961Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 29,
+    "fields": {
+        "code": "K04.4",
+        "description": "Acute apical periodontitis of pulpal origin",
+        "created_at": "2022-09-13T00:31:34.754Z",
+        "updated_at": "2022-09-13T00:31:34.754Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 30,
+    "fields": {
+        "code": "K04.5",
+        "description": "Chronic apical periodontitis",
+        "created_at": "2022-09-13T00:31:55.123Z",
+        "updated_at": "2022-09-13T00:31:55.123Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 31,
+    "fields": {
+        "code": "K04.6",
+        "description": "Periapical abscess with sinus",
+        "created_at": "2022-09-13T00:32:11.946Z",
+        "updated_at": "2022-09-13T00:32:11.946Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 32,
+    "fields": {
+        "code": "K04.7",
+        "description": "Periapical abscess without sinus",
+        "created_at": "2022-09-13T00:32:31.204Z",
+        "updated_at": "2022-09-13T00:32:31.204Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 33,
+    "fields": {
+        "code": "K04.8",
+        "description": "Radicular cyst",
+        "created_at": "2022-09-13T00:32:46.091Z",
+        "updated_at": "2022-09-13T00:32:46.091Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 34,
+    "fields": {
+        "code": "K04.9",
+        "description": "Other and unspecified diseases of pulp and periapical tissues",
+        "created_at": "2022-09-13T00:33:18.529Z",
+        "updated_at": "2022-09-13T00:33:18.530Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 35,
+    "fields": {
+        "code": "K05.0",
+        "description": "Acute gingivitis",
+        "created_at": "2022-09-13T00:33:31.945Z",
+        "updated_at": "2022-09-13T00:33:31.945Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 36,
+    "fields": {
+        "code": "K05.1",
+        "description": "Chronic gingivitis",
+        "created_at": "2022-09-13T00:33:48.637Z",
+        "updated_at": "2022-09-13T00:33:48.637Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 37,
+    "fields": {
+        "code": "K05.2",
+        "description": "Acute periodontitis",
+        "created_at": "2022-09-13T00:34:06.355Z",
+        "updated_at": "2022-09-13T00:34:06.355Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 38,
+    "fields": {
+        "code": "K05.3",
+        "description": "Chronic periodontitis",
+        "created_at": "2022-09-13T00:34:25.643Z",
+        "updated_at": "2022-09-13T00:34:25.643Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 39,
+    "fields": {
+        "code": "K05.4",
+        "description": "Periodontitis",
+        "created_at": "2022-09-13T00:34:38.279Z",
+        "updated_at": "2022-09-13T00:34:38.279Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 40,
+    "fields": {
+        "code": "K05.5",
+        "description": "Other periodontitis diseases",
+        "created_at": "2022-09-13T00:34:59.017Z",
+        "updated_at": "2022-09-13T00:34:59.017Z"
+    }
+},
+{
+    "model": "data_support.bpjscodes",
+    "pk": 41,
+    "fields": {
+        "code": "K05.6",
+        "description": "Periodontal disease, unspecified",
+        "created_at": "2022-09-13T00:35:18.555Z",
+        "updated_at": "2022-09-13T00:35:18.555Z"
+    }
+}
+]

@@ -14,6 +14,7 @@ from config.utils import calculate_age
 from django.core.exceptions import ObjectDoesNotExist
 from config.utils import time_different
 from django.utils.html import format_html
+from data_support.models import BPJSCodes
 
 
 SOAP = """S:
@@ -176,6 +177,10 @@ class Patients(ClusterableModel):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
+    is_bpjs = models.BooleanField(_('BPJS'), default=False)
+    nik = models.CharField(_('NIK'), max_length=20, blank=True, null=True)
+    bpjs_number = models.CharField(_('BPJS Number'), max_length=20, blank=True, null=True)
+
     created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
 
@@ -202,12 +207,16 @@ class Patients(ClusterableModel):
                     label='Invoice',
                     classname='collapsed',),
         MultiFieldPanel([
+            FieldPanel('is_bpjs'),
             FieldRowPanel([FieldPanel('name'), FieldPanel('gender')]),
             FieldPanel('dob', widget=date_widget),
             FieldRowPanel([FieldPanel('phone'), FieldPanel('email')]),
             FieldPanel('address')],
             heading='Data Patient'
         ),
+        MultiFieldPanel([
+           FieldRowPanel([FieldPanel('nik'), FieldPanel('bpjs_number')], classname='collapsed'),
+        ]),
 
         MultiFieldPanel([
             HelpPanel(content=HELP_PANEL_1,
@@ -326,6 +335,13 @@ class Soaps(Orderable):
     objective = models.TextField(_('Objective'))
     assessment = models.TextField(_('Assessment'))
     plan = models.TextField(_('Plan'))
+    assessment_bpjs = models.ForeignKey(
+        BPJSCodes,
+        on_delete=models.SET_NULL,
+        verbose_name=_('Assessment BPJS'),
+        blank=True,
+        null=True
+    )
 
     additional_info = models.TextField(verbose_name=_('Additional Information'), blank=True, null=True)
     patient = ParentalKey(
@@ -350,6 +366,7 @@ class Soaps(Orderable):
             FieldPanel('subjective'),
             FieldPanel('objective'),
             FieldPanel('assessment'),
+            FieldPanel('assessment_bpjs'),
             FieldPanel('plan'),
         ], heading='SOAP'),
         FieldPanel('additional_info'),
@@ -361,6 +378,10 @@ class Soaps(Orderable):
         verbose_name = 'SOAP'
         verbose_name_plural = 'SOAP'
         ordering = ['-datetime']
+
+    def clean(self):
+        if self.assessment is None:
+            self.assessment = self.assessment_bpjs
 
     def save(self):
         if self.user is None:

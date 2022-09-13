@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'patient',
     'invoice',
     'dashboard',
+    'data_support',
     'wagtail.contrib.modeladmin',
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',

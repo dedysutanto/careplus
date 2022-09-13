@@ -28,6 +28,13 @@ class SoapsCreateView(CreateView):
         return instance
         #return getattr(self, "instance", None) or self.model()
 
+    def get_edit_handler(self):
+
+        #if instance.patient.is_bpjs:
+        #    panels = [panel for panel in Patients.panels if panel.heading != 'Invoices']
+        panels = ObjectList(Soaps.panels).bind_to_model(Soaps)
+        return panels
+
 
 class SoapsEditView(EditView):
     page_title = 'Editing'
@@ -74,7 +81,7 @@ class SoapsPermissionHelper(PermissionHelper):
         if user.is_superuser:
             return False
         else:
-            return True
+            return False
 
     def user_can_delete_obj(self, user, obj):
         return False
@@ -121,7 +128,9 @@ class SoapsAdmin(ModelAdmin):
             'number', 'patient', 'datetime', 'subjective', 'objective',
             'assessment', 'plan', 'additional_info', 'image_thumb',
         ]
-        if not current_user.membership.is_clinic:
+        if current_user.is_superuser:
+            return self.list_display
+        elif not current_user.membership.is_clinic:
             return doctor_list_display
         else:
             return self.list_display
