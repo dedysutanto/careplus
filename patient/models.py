@@ -381,7 +381,7 @@ class Soaps(Orderable):
 
     def clean(self):
         if self.assessment is None:
-            self.assessment = self.assessment_bpjs
+            self.assessment = self.assessment_bpjs.__str__()
 
     def save(self):
         if self.user is None:

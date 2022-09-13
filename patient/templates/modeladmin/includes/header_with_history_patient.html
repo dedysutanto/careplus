@@ -26,6 +26,12 @@
         <span><strong>Objective:</strong> {{ soap.objective }}; </span>
         <span><strong>Assessment:</strong> {{ soap.assessment }}; </span>
         <span><strong>Plan:</strong> {{ soap.plan }};</span>
+        {% if soap.additional_info %}
+        <span><strong>Additional Info:</strong> {{ soap.additional_info }};</span>
+        {% endif %}
+        {% if instance.is_bpjs %}
+        <br /><span><strong>Assessment BPJS:</strong> {{ soap.assessment_bpjs }}; </span>
+        {% endif %}
         {% else %}
         <span><strong>No SOAP</strong></span>
         {% endif %}
