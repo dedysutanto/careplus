@@ -25,25 +25,37 @@
                 <td><strong>Last Visit</strong></td><td>:</td><td> {{ soap.datetime }}</td>
             </tr>
             <tr>
-                <td><strong>Subjective</strong></td><td>:</td><td> {{ soap.subjective }}</td>
+                <td style="vertical-align: top;"><strong>Subjective</strong></td>
+                <td style="vertical-align: top;">:</td>
+                <td style="vertical-align: top;"> {{ soap.subjective }}</td>
             </tr>
             <tr>
-                <td><strong>Objective</strong></td><td>:</td><td> {{ soap.objective }}</td>
+                <td style="vertical-align: top;"><strong>Objective</strong></td>
+                <td style="vertical-align: top;">:</td>
+                <td style="vertical-align: top;"> {{ soap.objective }}</td>
             </tr>
             <tr>
-                <td><strong>Assessment</strong></td><td>:</td><td> {{ soap.assessment }}</td>
+                <td style="vertical-align: top;"><strong>Assessment</strong></td>
+                <td style="vertical-align: top;">:</td>
+                <td style="vertical-align: top;"> {{ soap.assessment }}</td>
             </tr>
             <tr>
-                <td><strong>Plan</strong></td><td>:</td><td> {{ soap.plan }}</td>
+                <td style="vertical-align: top;"><strong>Plan</strong></td>
+                <td style="vertical-align: top;">:</td>
+                <td style="vertical-align: top;"> {{ soap.plan }}</td>
             </tr>
         {% if soap.additional_info %}
             <tr>
-                <td><strong>Info</strong></td><td>:</td><td> {{ soap.additional_info }}</td>
+                <td style="vertical-align: top;"><strong>Info</strong></td>
+                <td style="vertical-align: top;">:</td>
+                <td style="vertical-align: top;"> {{ soap.additional_info }}</td>
             </tr>
         {% endif %}
         {% if instance.is_bpjs %}
             <tr>
-                <td><strong>Assessment BPJS</strong></td><td>:</td><td> {{ soap.assessment_bpjs }}</td>
+                <td style="vertical-align: top;"><strong>Assessment BPJS</strong></td>
+                <td style="vertical-align: top;">:</td>
+                <td style="vertical-align: top;"> {{ soap.assessment_bpjs }}</td>
             </tr>
         {% endif %}
         </table>
