@@ -20,21 +20,37 @@
     -->
     <div class="row">
         {% if soap %}
-        <span><strong>Last Visit:</strong> {{ soap.datetime }}</span>
-        <br />
-        <span><strong>Subjective:</strong> {{ soap.subjective }}; </span>
-        <span><strong>Objective:</strong> {{ soap.objective }}; </span>
-        <span><strong>Assessment:</strong> {{ soap.assessment }}; </span>
-        <span><strong>Plan:</strong> {{ soap.plan }};</span>
+        <table>
+            <tr>
+                <td><strong>Last Visit</strong></td><td>:</td><td> {{ soap.datetime }}</td>
+            </tr>
+            <tr>
+                <td><strong>Subjective</strong></td><td>:</td><td> {{ soap.subjective }}</td>
+            </tr>
+            <tr>
+                <td><strong>Objective</strong></td><td>:</td><td> {{ soap.objective }}</td>
+            </tr>
+            <tr>
+                <td><strong>Assessment</strong></td><td>:</td><td> {{ soap.assessment }}</td>
+            </tr>
+            <tr>
+                <td><strong>Plan</strong></td><td>:</td><td> {{ soap.plan }}</td>
+            </tr>
         {% if soap.additional_info %}
-        <span><strong>Additional Info:</strong> {{ soap.additional_info }};</span>
+            <tr>
+                <td><strong>Info</strong></td><td>:</td><td> {{ soap.additional_info }}</td>
+            </tr>
         {% endif %}
         {% if instance.is_bpjs %}
-        <br /><span><strong>Assessment BPJS:</strong> {{ soap.assessment_bpjs }}; </span>
+            <tr>
+                <td><strong>Assessment BPJS</strong></td><td>:</td><td> {{ soap.assessment_bpjs }}</td>
+            </tr>
         {% endif %}
+        </table>
         {% else %}
-        <span><strong>No SOAP</strong></span>
+        <span><strong>No Visit</strong></span>
         {% endif %}
+
     </div>
 <!--
     <div class="row">

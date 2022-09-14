@@ -98,6 +98,9 @@ class InvoicesEditView(EditView):
 
         return '%s' % text
 
+    def get_success_url(self):
+        return self.edit_url
+
 
 class InvoicesPermissionHelper(PermissionHelper):
     def user_can_list(self, user):
@@ -140,6 +143,7 @@ class InvoicesAdmin(ModelAdmin):
     ordering = ['-number']
     permission_helper_class = InvoicesPermissionHelper
     edit_view_class = InvoicesEditView
+    edit_template_name = 'modeladmin/edit_invoice.html'
     button_helper_class = InvoicesButton
     form_view_extra_js = ['invoice/js/invoice.js']
 

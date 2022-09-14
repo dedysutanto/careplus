@@ -7,14 +7,15 @@ from django.utils.translation import gettext_lazy as _
 from wagtail.models import Orderable
 from modelcluster.fields import ParentalKey
 from django.utils.timezone import now, localtime
-from wagtail.admin.panels import FieldPanel, InlinePanel, FieldRowPanel, MultiFieldPanel, HelpPanel
+from wagtail.admin.panels import FieldPanel, InlinePanel, \
+    FieldRowPanel, MultiFieldPanel, HelpPanel, TabbedInterface
 from crum import get_current_user
 from wagtail.admin import widgets
 from config.utils import calculate_age
 from django.core.exceptions import ObjectDoesNotExist
 from config.utils import time_different
 from django.utils.html import format_html
-from data_support.models import BPJSCodes
+#from data_support.models import BPJSCodes
 
 
 SOAP = """S:
@@ -177,9 +178,9 @@ class Patients(ClusterableModel):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
-    is_bpjs = models.BooleanField(_('BPJS'), default=False)
+    #is_bpjs = models.BooleanField(_('BPJS'), default=False)
     nik = models.CharField(_('NIK'), max_length=20, blank=True, null=True)
-    bpjs_number = models.CharField(_('BPJS Number'), max_length=20, blank=True, null=True)
+    #bpjs_number = models.CharField(_('BPJS Number'), max_length=20, blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, auto_now_add=False)
@@ -197,55 +198,57 @@ class Patients(ClusterableModel):
                     heading="Related SOAP",
                     label="Detail SOAP",),
 
-        InlinePanel('next_appointment',
-                    heading='Next Visit',
-                    label='Appointment',
-                    classname='collapsed',
-                    min_num=0, max_num=1),
-        InlinePanel('related_invoice_patient',
-                    heading='Invoices',
-                    label='Invoice',
-                    classname='collapsed',),
+        TabbedInterface([
+            InlinePanel('next_appointment',
+                        heading='Next Visit',
+                        label='Appointment',
+                        classname='collapsed',
+                        min_num=0, max_num=1),
+            InlinePanel('related_invoice_patient',
+                        heading='Invoices',
+                        label='Invoice',
+                        classname='collapsed',),
+        ], heading='Next Visit and Invoice', classname='collapsed'),
+
         MultiFieldPanel([
-            FieldPanel('is_bpjs'),
             FieldRowPanel([FieldPanel('name'), FieldPanel('gender')]),
             FieldPanel('dob', widget=date_widget),
             FieldRowPanel([FieldPanel('phone'), FieldPanel('email')]),
-            FieldPanel('address')],
-            heading='Data Patient'
-        ),
-        MultiFieldPanel([
-           FieldRowPanel([FieldPanel('nik'), FieldPanel('bpjs_number')], classname='collapsed'),
-        ]),
+            FieldPanel('address'),
+            FieldPanel('nik'),
+        ], heading='Data Patient'),
 
-        MultiFieldPanel([
-            HelpPanel(content=HELP_PANEL_1,
-                      template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
-            HelpPanel(content=HELP_PANEL_2,
-                      template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
-            HelpPanel(content=HELP_PANEL_3,
-                      template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
-            InlinePanel('teeth_upper_right', heading='Upper Right', label='Condition',
-                        classname="collapsed",
-                        min_num=0, max_num=1),
-            InlinePanel('teeth_upper_left', heading='Upper Left', label='Condition',
-                        classname="collapsed",
-                        min_num=0, max_num=1),
-        ], heading='Upper Teeth Condition', classname="collapsed"),
-        MultiFieldPanel([
-            HelpPanel(content=HELP_PANEL_1,
-                      template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
-            HelpPanel(content=HELP_PANEL_2,
-                      template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
-            HelpPanel(content=HELP_PANEL_3,
-                      template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
-            InlinePanel('teeth_lower_right', heading='Lower Right', label='Condition',
-                        classname="collapsed",
-                        min_num=0, max_num=1),
-            InlinePanel('teeth_lower_left', heading='Lower Left', label='Condition',
-                        classname="collapsed",
-                        min_num=0, max_num=1),
-        ], heading='Lower Teeth Condition', classname="collapsed"),
+        TabbedInterface([
+            MultiFieldPanel([
+                HelpPanel(content=HELP_PANEL_1,
+                        template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
+                HelpPanel(content=HELP_PANEL_2,
+                        template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
+                HelpPanel(content=HELP_PANEL_3,
+                        template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
+                InlinePanel('teeth_upper_right', heading='Upper Right', label='Condition',
+                            classname="collapsed",
+                            min_num=0, max_num=1),
+                InlinePanel('teeth_upper_left', heading='Upper Left', label='Condition',
+                            classname="collapsed",
+                            min_num=0, max_num=1),
+            ], heading='Upper Teeth Condition', classname="collapsed"),
+
+            MultiFieldPanel([
+                HelpPanel(content=HELP_PANEL_1,
+                        template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
+                HelpPanel(content=HELP_PANEL_2,
+                        template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
+                HelpPanel(content=HELP_PANEL_3,
+                        template='wagtailadmin/panels/help_panel.html', heading='', classname=''),
+                InlinePanel('teeth_lower_right', heading='Lower Right', label='Condition',
+                            classname="collapsed",
+                            min_num=0, max_num=1),
+                InlinePanel('teeth_lower_left', heading='Lower Left', label='Condition',
+                            classname="collapsed",
+                            min_num=0, max_num=1),
+            ], heading='Lower Teeth Condition', classname="collapsed"),
+        ], heading='Odontogram', classname='collapsed'),
 
     ]
 
@@ -335,6 +338,7 @@ class Soaps(Orderable):
     objective = models.TextField(_('Objective'))
     assessment = models.TextField(_('Assessment'))
     plan = models.TextField(_('Plan'))
+    '''
     assessment_bpjs = models.ForeignKey(
         BPJSCodes,
         on_delete=models.SET_NULL,
@@ -342,6 +346,7 @@ class Soaps(Orderable):
         blank=True,
         null=True
     )
+    '''
 
     additional_info = models.TextField(verbose_name=_('Additional Information'), blank=True, null=True)
     patient = ParentalKey(
@@ -366,7 +371,7 @@ class Soaps(Orderable):
             FieldPanel('subjective'),
             FieldPanel('objective'),
             FieldPanel('assessment'),
-            FieldPanel('assessment_bpjs'),
+            #FieldPanel('assessment_bpjs'),
             FieldPanel('plan'),
         ], heading='SOAP'),
         FieldPanel('additional_info'),
