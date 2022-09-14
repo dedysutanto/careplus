@@ -113,6 +113,7 @@ class SoapsAdmin(ModelAdmin):
     ordering = ['-number']
     permission_helper_class = SoapsPermissionHelper
     edit_view_class = SoapsEditView
+    edit_template_name = 'modeladmin/edit_soap.html'
     create_view_class = SoapsCreateView
     form_view_extra_js = ['soap/js/edit_soap.js']
 
@@ -260,6 +261,13 @@ class PatientsAdmin(ModelAdmin):
         '''
         return ObjectList(Patients.panels)
         #return ObjectList(custom_panels)
+
+    def get_list_display(self, request):
+        list_display = self.list_display
+        if request.device.is_mobile:
+            list_display = ['patient']
+
+        return list_display
 
 
 modeladmin_register(PatientsAdmin)

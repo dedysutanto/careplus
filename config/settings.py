@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'invoice',
     'dashboard',
     'data_support',
+    'mobiledetect',
     'wagtail.contrib.modeladmin',
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
@@ -67,6 +68,8 @@ MIDDLEWARE = [
 
 MIDDLEWARE += ('crum.CurrentRequestUserMiddleware',)
 MIDDLEWARE += ('wagtail.contrib.redirects.middleware.RedirectMiddleware',)
+MIDDLEWARE += ('mobiledetect.middleware.DetectMiddleware',)
+
 
 ROOT_URLCONF = 'config.urls'
 
