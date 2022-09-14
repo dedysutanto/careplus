@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.utils.html import format_html
 from wagtail.admin.panels import FieldPanel, InlinePanel, FieldRowPanel, ObjectList
 from django.db.models import Sum
+from config.utils import is_mobile
 
 
 class InvoicesButton(ButtonHelper):
@@ -162,6 +163,13 @@ class InvoicesAdmin(ModelAdmin):
             return doctor_list_display
         else:
             return self.list_display
+
+    def get_list_display(self, request):
+        list_display = self.list_display
+        if is_mobile(request):
+            list_display = ['patient', 'calculate_total']
+
+        return list_display
 
     '''
     def get_edit_handler(self, instance, request):

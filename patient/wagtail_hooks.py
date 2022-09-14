@@ -137,6 +137,13 @@ class SoapsAdmin(ModelAdmin):
         else:
             return self.list_display
 
+    def get_list_display(self, request):
+        list_display = self.list_display
+        if is_mobile(request):
+            list_display = ['doctor', 'patient']
+
+        return list_display
+
 
 class PatientsEditView(EditView):
     page_title = 'Editing'
@@ -265,7 +272,7 @@ class PatientsAdmin(ModelAdmin):
     def get_list_display(self, request):
         list_display = self.list_display
         if is_mobile(request):
-            list_display = ['name']
+            list_display = ['name', 'phone']
 
         return list_display
 
