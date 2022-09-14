@@ -2,7 +2,7 @@ from wagtail.contrib.modeladmin.options import (
     ModelAdmin, modeladmin_register, PermissionHelper, EditView, CreateView)
 from .models import Patients, Soaps, NextAppointment
 from crum import get_current_user
-from config.utils import calculate_age
+from config.utils import calculate_age, is_mobile
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils.timezone import now, localtime
 from config.utils import time_different
@@ -264,7 +264,7 @@ class PatientsAdmin(ModelAdmin):
 
     def get_list_display(self, request):
         list_display = self.list_display
-        if request.device.is_mobile:
+        if is_mobile(request):
             list_display = ['patient']
 
         return list_display

@@ -6,7 +6,6 @@ charset-normalizer==2.1.1
 Django==4.1
 django-crum==0.7.9
 django-filter==22.1
-django-mobile-detect==0.1
 django-modelcluster==6.0
 django-permissionedforms==0.1
 django-taggit==3.0.0
