@@ -265,7 +265,7 @@ class PatientsAdmin(ModelAdmin):
     def get_list_display(self, request):
         list_display = self.list_display
         if is_mobile(request):
-            list_display = ['patient']
+            list_display = ['name']
 
         return list_display
 
