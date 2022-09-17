@@ -134,6 +134,7 @@ class Invoices(ClusterableModel, Orderable):
 
         return super(Invoices, self).save()
 
+    '''
     def clean(self):
         if self.soap is None:
             soap = Soaps.objects.filter(
@@ -141,6 +142,7 @@ class Invoices(ClusterableModel, Orderable):
 
             if soap is None:
                 raise ValidationError('No SOAP for the patient. Please create SOAP first.')
+    '''
 
     def calculate_total(self):
         total = InvoiceItems.objects.filter(invoice=self).aggregate(Sum('sub_total'))

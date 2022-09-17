@@ -243,7 +243,12 @@ class PatientsAdmin(ModelAdmin):
     edit_template_name = 'modeladmin/edit_patient.html'
     edit_view_class = PatientsEditView
     create_view_class = PatientCreateView
-    form_view_extra_js = ['patient/js/patient_invoice.js', 'patient/js/patient_soap.js']
+    form_view_extra_js = [
+        'patient/js/patient_invoice.js',
+        'patient/js/patient_soap.js',
+        'patient/js/patient_style.js'
+
+    ]
 
     def get_queryset(self, request):
         current_user = get_current_user()
