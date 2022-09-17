@@ -19,6 +19,8 @@
     </div>
     -->
     <div class="nice-padding last-updated">
+        <table>
+            <tr style="width: 50%;"><td style="vertical-align: top; border: 0px solid black; padding-right: 50px;">
         {% if soap %}
         <table>
             <tr>
@@ -51,17 +53,55 @@
                 <td style="vertical-align: top;"> {{ soap.additional_info }}</td>
             </tr>
         {% endif %}
-        {% if instance.is_bpjs %}
-            <tr>
-                <td style="vertical-align: top;"><strong>Assessment BPJS</strong></td>
-                <td style="vertical-align: top;">:</td>
-                <td style="vertical-align: top;"> {{ soap.assessment_bpjs }}</td>
-            </tr>
-        {% endif %}
         </table>
         {% else %}
         <span><strong>No Visit</strong></span>
         {% endif %}
+            </td>
+            <td style="vertical-align: top;">
+                <table>
+                    <tr>
+                        <td style="vertical-align: top;"><strong>Name (Gender)</strong></td>
+                        <td style="vertical-align: top;">:</td>
+                        <td style="vertical-align: top;"> {{ instance.name }} ({{ instance.gender }})</td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: top;"><strong>DOB (Age)</strong></td>
+                        <td style="vertical-align: top;">:</td>
+                        <td style="vertical-align: top;"> {{ instance.dob }} ({{ instance.calculate_age }})</td>
+                    </tr>
+                    {% if instance.phone %}
+                    <tr>
+                        <td style="vertical-align: top;"><strong>Phone</strong></td>
+                        <td style="vertical-align: top;">:</td>
+                        <td style="vertical-align: top;"> {{ instance.phone }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if instance.email %}
+                    <tr>
+                        <td style="vertical-align: top;"><strong>Email</strong></td>
+                        <td style="vertical-align: top;">:</td>
+                        <td style="vertical-align: top;"> {{ instance.email }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if instance.address %}
+                    <tr>
+                        <td style="vertical-align: top;"><strong>Address</strong></td>
+                        <td style="vertical-align: top;">:</td>
+                        <td style="vertical-align: top;"> {{ instance.address }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if instance.nik %}
+                    <tr>
+                        <td style="vertical-align: top;"><strong>NIK</strong></td>
+                        <td style="vertical-align: top;">:</td>
+                        <td style="vertical-align: top;"> {{ instance.nik }}</td>
+                    </tr>
+                    {% endif %}
+
+                </table>
+            </td></tr>
+        </table>
 
     </div>
     <br />
