@@ -1,6 +1,6 @@
 from wagtail.contrib.modeladmin.options import (
     ModelAdmin, modeladmin_register, PermissionHelper, EditView, CreateView)
-from .models import Patients, Soaps, NextAppointment
+from .models import Patients, Soaps, NextAppointment, Allergies
 from crum import get_current_user
 from config.utils import calculate_age, is_mobile
 from django.core.exceptions import ObjectDoesNotExist
@@ -178,6 +178,12 @@ class PatientsEditView(EditView):
         except ObjectDoesNotExist:
             context['soap'] = None
 
+        try:
+            allergies = Allergies.objects.filter(patient=instance).last()
+            context['allergies'] = allergies
+        except ObjectDoesNotExist:
+            context['allergies'] = None
+
         context['add_soap'] = SoapsAdmin().url_helper.get_action_url('create')
         name_txt = str(instance.name).replace(' ', '+')
         context['list_soap'] = SoapsAdmin().url_helper.get_action_url('index') + '?q=' + name_txt
@@ -236,7 +242,7 @@ class PatientsAdmin(ModelAdmin):
     add_to_settings_menu = False  # or True to add your model to the Settings sub-menu
     exclude_from_explorer = False  # or True to exclude pages of this type from Wagtail's explorer view
     add_to_admin_menu = True  # or False to exclude your model from the menu
-    list_display = ('number', 'name', 'gender', 'dob', 'calculate_age', 'phone', 'email', 'address', 'next_visit')
+    list_display = ('number', 'name', 'gender', 'dob', 'calculate_age', 'phone', 'email', 'address', 'allergies', 'next_visit')
     search_fields = ('number', 'name', 'dob')
     permission_helper_class = PatientsPermissionHelper
     ordering = ['-number']

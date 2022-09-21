@@ -98,6 +98,14 @@
                         <td style="vertical-align: top;"> {{ instance.nik }}</td>
                     </tr>
                     {% endif %}
+                    {% if allergies.allergies %}
+                    <tr>
+                        <td style="vertical-align: top;"><strong>Allergies</strong></td>
+                        <td style="vertical-align: top;">:</td>
+                        <td style="vertical-align: top;"> {{ allergies.allergies }}</td>
+                    </tr>
+                    {% endif %}
+
 
                 </table>
             </td></tr>

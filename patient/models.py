@@ -197,6 +197,12 @@ class Patients(ClusterableModel):
         InlinePanel('related_patient',
                     heading="Related SOAP",
                     label="Detail SOAP",),
+        InlinePanel('related_allergies',
+                    heading="Allergies",
+                    label="Detail Allergies",
+                    classname="collapsed",
+                    min_num=0, max_num=1
+                    ),
 
         TabbedInterface([
             InlinePanel('next_appointment',
@@ -208,7 +214,7 @@ class Patients(ClusterableModel):
                         heading='Invoices',
                         label='Invoice',
                         classname='collapsed',),
-        ], heading='Next Visit and Invoice', classname='collapsed'),
+        ], heading='Next Visit and Invoices', classname='collapsed'),
 
         MultiFieldPanel([
             FieldRowPanel([FieldPanel('name'), FieldPanel('gender')]),
@@ -317,6 +323,14 @@ class Patients(ClusterableModel):
 
     next_visit.short_description = _('Next Visit')
 
+    def allergies(self):
+        try:
+            allergies = Allergies.objects.get(patient=self)
+            return allergies.allergies
+        except ObjectDoesNotExist:
+            return None
+    allergies.short_description = _('Allergies')
+
 
 class Soaps(Orderable):
     def limit_choices_to_current_user():
@@ -411,6 +425,16 @@ class Soaps(Orderable):
         except ValueError:
             return None
     image_thumb.short_description = _('Image')
+
+
+class Allergies(Orderable):
+    patient = ParentalKey('Patients', on_delete=models.CASCADE, related_name='related_allergies')
+    allergies = models.CharField(_('Allergies'), max_length=100)
+
+    class Meta:
+        db_table = 'allergies'
+        verbose_name = 'allergy'
+        verbose_name_plural = 'allergies'
 
 
 class Teeth(models.Model):

@@ -12,62 +12,63 @@
     {% endfragment %}
     {% if child.instance.id %}
         {% if child.instance.calculate_total %}
-    {% with child.instance.number|add:'-'|add:child.instance.calculate_total as invoice_title %}
-    {% panel id=panel_id heading=invoice_title heading_size="label" header_controls=header_controls classname="collapsed" %}
-        {% if child.form.non_field_errors %}
-            <ul>
-                {% for error in child.form.non_field_errors %}
-                    <li class="error-message">
-                        <span>{{ error|escape }}</span>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-        {{ child.render_form_content }}
-    {% endpanel %}
-    {% endwith %}
+            {% with child.instance.number|add:'-'|add:child.instance.calculate_total as invoice_title %}
+                {% panel id=panel_id heading=invoice_title heading_size="label" header_controls=header_controls classname="collapsed" %}
+                {% if child.form.non_field_errors %}
+                <ul>
+                    {% for error in child.form.non_field_errors %}
+                        <li class="error-message">
+                            <span>{{ error|escape }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {{ child.render_form_content }}
+                {% endpanel %}
+            {% endwith %}
         {% else %}
             {% if child.instance.item %}
-    {% panel id=panel_id heading=child.instance.datetime heading_size="label" header_controls=header_controls classname="" %}
-        {% if child.form.non_field_errors %}
-            <ul>
-                {% for error in child.form.non_field_errors %}
-                    <li class="error-message">
-                        <span>{{ error|escape }}</span>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-        {{ child.render_form_content }}
-    {% endpanel %}
+                {% panel id=panel_id heading=child.instance.datetime heading_size="label" header_controls=header_controls classname="" %}
+                    {% if child.form.non_field_errors %}
+                    <ul>
+                        {% for error in child.form.non_field_errors %}
+                            <li class="error-message">
+                                <span>{{ error|escape }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    {{ child.render_form_content }}
+                {% endpanel %}
             {% else %}
-    {% panel id=panel_id heading=child.instance.datetime heading_size="label" header_controls=header_controls classname="collapsed" %}
-        {% if child.form.non_field_errors %}
-            <ul>
-                {% for error in child.form.non_field_errors %}
-                    <li class="error-message">
-                        <span>{{ error|escape }}</span>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-        {{ child.render_form_content }}
-    {% endpanel %}
+                {% panel id=panel_id heading=child.instance.datetime heading_size="label" header_controls=header_controls classname="collapsed" %}
+                    {% if child.form.non_field_errors %}
+                    <ul>
+                        {% for error in child.form.non_field_errors %}
+                            <li class="error-message">
+                                <span>{{ error|escape }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    {{ child.render_form_content }}
+                {% endpanel %}
             {% endif%}
         {% endif %}
+
     {% else %}
-    {% panel id=panel_id heading=child.instance.datetime heading_size="label" header_controls=header_controls %}
-        {% if child.form.non_field_errors %}
-            <ul>
-                {% for error in child.form.non_field_errors %}
-                    <li class="error-message">
-                        <span>{{ error|escape }}</span>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-        {{ child.render_form_content }}
-    {% endpanel %}
+            {% panel id=panel_id heading=child.instance.allergies heading_size="label" header_controls=header_controls %}
+                {% if child.form.non_field_errors %}
+                    <ul>
+                        {% for error in child.form.non_field_errors %}
+                            <li class="error-message">
+                                <span>{{ error|escape }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                    {{ child.render_form_content }}
+            {% endpanel %}
     {% endif %}
 
 </div>
